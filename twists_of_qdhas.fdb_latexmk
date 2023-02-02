@@ -1,17 +1,17 @@
 # Fdb version 3
-["bibtex twists_of_qdhas"] 1675331461 "twists_of_qdhas.aux" "twists_of_qdhas.bbl" "twists_of_qdhas" 1675334538
+["bibtex twists_of_qdhas"] 1675331461 "twists_of_qdhas.aux" "twists_of_qdhas.bbl" "twists_of_qdhas" 1675334619
   "D:/Program Files/Miktex/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "mymasterbib.bib" 1675333464 40518 5dca3a3af4ce94c08e93808aa8a8398e ""
-  "twists_of_qdhas.aux" 1675334537 5800 267653110a0021e821776a884085414b "pdflatex"
+  "twists_of_qdhas.aux" 1675334619 5800 267653110a0021e821776a884085414b "pdflatex"
   (generated)
   "twists_of_qdhas.bbl"
   "twists_of_qdhas.blg"
-["makeindex twists_of_qdhas.idx"] 1675334428 "twists_of_qdhas.idx" "twists_of_qdhas.ind" "twists_of_qdhas" 1675334538
-  "twists_of_qdhas.idx" 1675334537 591 3aaa069fd889b93e5d01585264e74610 "pdflatex"
+["makeindex twists_of_qdhas.idx"] 1675334428 "twists_of_qdhas.idx" "twists_of_qdhas.ind" "twists_of_qdhas" 1675334619
+  "twists_of_qdhas.idx" 1675334619 591 3aaa069fd889b93e5d01585264e74610 "pdflatex"
   (generated)
   "twists_of_qdhas.ilg"
   "twists_of_qdhas.ind"
-["pdflatex"] 1675334535 "c:/Users/tedjh/Dropbox/Research and Math exposition/Main_PhD/Twists of Quantum Drinfeld Hecke algebras/twists_of_qdhas.tex" "twists_of_qdhas.pdf" "twists_of_qdhas" 1675334538
+["pdflatex"] 1675334616 "c:/Users/tedjh/Dropbox/Research and Math exposition/Main_PhD/Twists of Quantum Drinfeld Hecke algebras/twists_of_qdhas.tex" "twists_of_qdhas.pdf" "twists_of_qdhas" 1675334619
   "C:/Users/tedjh/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1674899428 81760 910369822cd2d7c359b2482f4c0de4ca ""
   "C:/Users/tedjh/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1663917308 11548 7e4d317433e68349e2b0a46a6fe5eee3 ""
   "C:/Users/tedjh/AppData/Local/MiKTeX/fonts/pk/ljfour/public/wasy/dpi600/wasy10.pk" 1663917311 15116 447eccb969d0be29cb0a129c42464dff ""
@@ -274,13 +274,13 @@
   "D:/Program Files/Miktex/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "D:/Program Files/Miktex/tex/latex/xcolor/xcolor.sty" 1656233290 56148 51a9a8571c07b9921892ae11063ae853 ""
   "D:/Program Files/Miktex/tex/latex/xkeyval/xkeyval.sty" 1656233319 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/tedjh/Dropbox/Research and Math exposition/Main_PhD/Twists of Quantum Drinfeld Hecke algebras/twists_of_qdhas.tex" 1675334534 81086 60919af6b1b38381a8128348e6073b1d ""
-  "twists_of_qdhas.aux" 1675334537 5800 267653110a0021e821776a884085414b "pdflatex"
+  "c:/Users/tedjh/Dropbox/Research and Math exposition/Main_PhD/Twists of Quantum Drinfeld Hecke algebras/twists_of_qdhas.tex" 1675334615 81079 d05ea5dbcf229787e7f214285378090b ""
+  "twists_of_qdhas.aux" 1675334619 5800 267653110a0021e821776a884085414b "pdflatex"
   "twists_of_qdhas.bbl" 1675331462 1060 9c8b486d07df328c3ff7370a05667ff0 "bibtex twists_of_qdhas"
   "twists_of_qdhas.ind" 1675334428 704 70dcbc40dfe85d97e7a6607f8cdf63c6 "makeindex twists_of_qdhas.idx"
-  "twists_of_qdhas.out" 1675334537 2078 99bd962f519d303b2e50bddce0e52431 "pdflatex"
-  "twists_of_qdhas.tex" 1675334534 81086 60919af6b1b38381a8128348e6073b1d ""
-  "twists_of_qdhas.toc" 1675334537 1043 dba6e831ba2e8a49c2477684255ac1d6 "pdflatex"
+  "twists_of_qdhas.out" 1675334619 2078 99bd962f519d303b2e50bddce0e52431 "pdflatex"
+  "twists_of_qdhas.tex" 1675334615 81079 d05ea5dbcf229787e7f214285378090b ""
+  "twists_of_qdhas.toc" 1675334619 1043 dba6e831ba2e8a49c2477684255ac1d6 "pdflatex"
   (generated)
   "twists_of_qdhas.aux"
   "twists_of_qdhas.idx"
