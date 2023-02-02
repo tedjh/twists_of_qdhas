@@ -1,0 +1,191 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.2in]{geometry}
+\usepackage[colorlinks,unicode]{hyperref}
+\usepackage[all]{xy}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{amsmath,amsthm,amsfonts,longtable,verbatim,tikz-cd,multicol,amssymb,wasysym,setspace,graphicx}
+% Packages incompatible with plastex.
+%\usepackage{xspace}
+%\usepackage{mathtools}
+%\usepackage{mathrsfs}
+\urlstyle{same}
+
+\usepackage[inline]{enumitem}
+
+\onehalfspacing
+
+\newcommand{\bb}{\medbreak}
+\newcommand{\nt}{\noindent}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Cc}{\mathbb{C}}
+\newcommand{\rt}{\xrightarrow{}}
+\newcommand{\xrt}{\xrightarrow}
+\newcommand{\cg}{\mathfrak{g}}
+\newcommand{\cd}{\cdot}
+\newcommand{\id}{\text{id}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\GL}{\text{GL}}
+\newcommand{\ad}{\text{ad}}
+\newcommand{\End}{\text{End}}
+\newcommand{\Der}{\text{Der}}
+\newcommand{\chr}{\text{char}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\rad}{\text{Rad}}
+\newcommand{\prim}{\text{prim}}
+\newcommand{\im}{\text{Im}}
+\newcommand{\spn}{\text{span}}
+\newcommand{\gsl}{\mathfrak{sl}}
+\newcommand{\iso}{\text{Iso}}
+\newcommand{\ind}{\text{Ind}}
+\newcommand{\ob}{\text{ob}}
+\newcommand{\CC}{\mathscr{C}}
+\newcommand{\DD}{\mathscr{D}}
+\newcommand{\aut}{\text{Aut}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\ux}{\underline{x}}
+\newcommand{\uy}{\underline{y}}
+\newcommand{\Rep}{\text{Rep}}
+\newcommand{\Tr}{\text{Tr}}
+\newcommand{\Mod}{\text{Mod}}
+
+% this is to highlight words that are being defined and enter.
+\newcommand{\define}[1]{\textbf{#1}}
+
+% The next two lines define a reasonable looking not divides sign.
+\DeclareMathSymbol{\nmid}{\mathrel}{AMSb}{"2D}
+\newcommand{\notdiv}{\nmid}
+
+% Make the tilde command wider
+\renewcommand{\tilde}{\widetilde}
+
+% the following two commands change the way the footnote symbol is
+% made to be old fashioned: *, dagger, etc.  
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+% We start with things like lemmas, theorems, etc.
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem*{scholium}{Scholium}
+\newtheorem{proposition}[lemma]{Proposition}
+
+% Now we create things like definitions, examples, comments, etc.  
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+\newenvironment{comments}{}{}
+\newenvironment{solution}{\smallskip\par\noindent\emph{Solution: }}{}
+\newenvironment{note}{}{}
+
+
+% Now I add a horizontal line at the end of definitions, examples,
+% etc.  Note: in theory the ntheorem package should make this easy,
+% but the last time I tried it (2010) the  package didn't always work.
+\newcommand{\myrule}{\nobreak\par\noindent\mbox{}\hspace*{0\textwidth}%
+            \rule{.66666\textwidth}{.005in}\hspace*{.333333\textwidth}\par}
+\makeatletter
+    \g@addto@macro\enddefinition\myrule
+    \g@addto@macro\endexample\myrule
+    \g@addto@macro\endcomments\myrule
+    \g@addto@macro\endlemma\myrule
+    \g@addto@macro\endtheorem\myrule
+    \g@addto@macro\endproposition\myrule
+    \g@addto@macro\endcor\myrule
+\makeatother
+
+\makeatletter
+% the following key values give the set up for hiding certain
+% environemnts. Note that "true" is just a dummy value.  It would work
+% equally well with "foo".  Each one of these redefines the outer
+% environment for an atom to turn the whole thing into a hidden
+% comment.  Note that the environments theorem, example, etc. do not
+% have to be written in any special way for hide and show to work.
+% They get clobbered by hide.  
+\define@key{hide}{scholium}[true]{\renewenvironment{scholium}{\comment}{\endcomment}}
+\define@key{hide}{proof}[true]{\renewenvironment{proof}{\comment}{\endcomment}}
+\define@key{hide}{lemma}[true]{\renewenvironment{lemma}{\comment}{\endcomment}}
+\define@key{hide}{comments}[true]{\renewenvironment{comments}{\comment}{\endcomment}}
+\define@key{hide}{cor}[true]{\renewenvironment{cor}{\comment}{\endcomment}}
+\define@key{hide}{definition}[true]{\renewenvironment{definition}{\comment}{\endcomment}}
+\define@key{hide}{example}[true]{\renewenvironment{example}{\comment}{\endcomment}}
+\define@key{hide}{theorem}[true]{\renewenvironment{theorem}{\comment}{\endcomment}}
+\define@key{hide}{note}[true]{\renewenvironment{note}{\comment}{\endcomment}}
+
+% Now this command can be given a comma separated list of names to
+% hide.  Thus, \HideEnvirons{ example, proof} would hide all examples
+% and proofs.
+\newcommand{\HideEnvirons}[1]{\setkeys{hide}{#1}}
+
+% The \ShowEnvirons command works like this: if it's argument is foo,
+% it redefines the *hide* family key for foo to do nothing.  Then, it
+% issues a \HideEnvirons command containing a list of all the atom
+% types.  So, everything is hidden *unless* the hide-family key has
+% been redefinied.
+  \define@key{show}{scholium}[true]{\define@key{hide}{scholium}{}}
+  \define@key{show}{proof}[true]{\define@key{hide}{proof}{}}
+  \define@key{show}{lemma}[true]{\define@key{hide}{lemma}{}}
+  \define@key{show}{comments}[true]{\define@key{hide}{comments}{}}
+  \define@key{show}{cor}[true]{\define@key{hide}{cor}{}}
+  \define@key{show}{definition}[true]{\define@key{hide}{definition}{}}
+  \define@key{show}{example}[true]{\define@key{hide}{example}{}}
+  \define@key{show}{theorem}[true]{\define@key{hide}{theorem}{}}
+\define@key{show}{note}[true]{\define@key{hide}{note}{}}
+
+% This command can be given a comma separated list of names to be shown
+\newcommand{\ShowEnvirons}[1]{\setkeys{show}{#1}\HideEnvirons{comments,cor,definition,example,proof,theorem,lemma,scholium,note}}
+\makeatother
+
+% \ShowEnvirons{definition,theorem}
+% \ShowEnvirons{definition}
+
+% Recall new commands: \footnote{}, \label{}
+% ------------------------------------------------------------------------------
+
+
+
+\title{}
+\author{Ted Jones-Healey}
+\date{}
+
+\begin{document}
+
+\section{Semidirect product relations}
+We wish to prove that 
+\begin{equation}\label{main_relation}
+  \phi(g)\star \phi(\ux_k)=\phi(g(\ux_k))\star \phi(g)\ \forall g\in \mu(G(m,p,n))
+\end{equation}
+We know that $\mu(G(m,p,n))$ is generated by $\sigma_i$ and the elements of $T(m,p,n)$, and so far we have proven that the semidirect product relations hold for $\sigma_i$ and $t_i^{(\zeta)}$. Note:
+\begin{itemize}
+  \item The proof of the semidirect product relation for $t_i^{(\zeta)}$ remains valid if we replace $t_i^{(\zeta)}$ with an arbitrary $t\in T(m,p,n)$. Therefore the semidirect product relations hold for all generators of $\mu(G(m,p,n))$. 
+  \item By linearity, the semidirect product relations for $\sigma_i, t\in T(m,p,n)$ remain true if we replace $\ux_k$ by any vector $v\in V$.
+\end{itemize}
+Assuming the validity of Section 5.8 from the preprint, i.e. that $\phi$ is an algebra homomorphism on the group algebra $\Cc \mu(G(m,p,n))$ so $\phi(gg')=\phi(g)\star \phi(g')\ \forall g,g'\in \mu(G(m,p,n))$, we posit that \eqref{main_relation} does indeed hold:\bb
+
+\nt Let $g$ be an arbitrary element of $\mu(G(m,p,n))$, so $g=s\dots uv$ for some $s,\dots,u,v\in \{\sigma_i\}\cup T(m,p,n)$. Using the fact \eqref{main_relation} holds for each of $s,\dots, u,v$, we find:
+\begin{align*}
+\phi(g)\star \phi(\ux_k) & =\phi(s\dots uv)\star \phi(\ux_k)\\
+  & = (\phi(s)\star \dots \star \phi(u) \star \phi(v))\star \phi(\ux_k)\\
+  & = (\phi(s)\star \dots \star \phi(u)) \star (\phi(v(\ux_k))\star \phi(v))
+\end{align*}
+Noting that $v(\ux_k)\in V$, and the semidirect product relation holds for all elements of $V$, we find the above is equal to:
+\begin{align*}
+ &= \phi(s)\star \dots \star (\phi(u(v(\ux_k)))\star \phi(u)) \star \phi(v)\\
+ &= \phi(s)\star \dots \star \phi(uv(\ux_k))\star \phi(uv)\\
+ &\dots\\
+ & =\phi(g(\ux_k))\star \phi(g)
+\end{align*}
+as required.
+
+
+
+%\newpage
+
+%\bibliographystyle{plain}
+%\bibliography{../mymasterbib}
+
+\end{document}

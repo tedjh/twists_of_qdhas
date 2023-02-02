@@ -1,0 +1,232 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.2in]{geometry}
+\usepackage[colorlinks,unicode]{hyperref}
+\usepackage[all]{xy}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{amsmath,amsthm,amsfonts,longtable,verbatim,tikz-cd,multicol,amssymb,wasysym,setspace,graphicx}
+% Packages incompatible with plastex.
+%\usepackage{xspace}
+%\usepackage{mathtools}
+%\usepackage{mathrsfs}
+\urlstyle{same}
+
+\usepackage[inline]{enumitem}
+
+\onehalfspacing
+
+\newcommand{\bb}{\medbreak}
+\newcommand{\nt}{\noindent}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Cc}{\mathbb{C}}
+\newcommand{\rt}{\xrightarrow{}}
+\newcommand{\xrt}{\xrightarrow}
+\newcommand{\cg}{\mathfrak{g}}
+\newcommand{\cd}{\cdot}
+\newcommand{\id}{\text{id}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\GL}{\text{GL}}
+\newcommand{\ad}{\text{ad}}
+\newcommand{\End}{\text{End}}
+\newcommand{\Der}{\text{Der}}
+\newcommand{\chr}{\text{char}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\rad}{\text{Rad}}
+\newcommand{\prim}{\text{prim}}
+\newcommand{\im}{\text{Im}}
+\newcommand{\spn}{\text{span}}
+\newcommand{\gsl}{\mathfrak{sl}}
+\newcommand{\iso}{\text{Iso}}
+\newcommand{\ind}{\text{Ind}}
+\newcommand{\ob}{\text{ob}}
+\newcommand{\CC}{\mathscr{C}}
+\newcommand{\DD}{\mathscr{D}}
+\newcommand{\aut}{\text{Aut}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\ux}{\underline{x}}
+\newcommand{\uy}{\underline{y}}
+\newcommand{\Rep}{\text{Rep}}
+\newcommand{\Tr}{\text{Tr}}
+\newcommand{\Mod}{\text{Mod}}
+
+% this is to highlight words that are being defined and enter.
+\newcommand{\define}[1]{\textbf{#1}}
+
+% The next two lines define a reasonable looking not divides sign.
+\DeclareMathSymbol{\nmid}{\mathrel}{AMSb}{"2D}
+\newcommand{\notdiv}{\nmid}
+
+% Make the tilde command wider
+\renewcommand{\tilde}{\widetilde}
+
+% the following two commands change the way the footnote symbol is
+% made to be old fashioned: *, dagger, etc.  
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+% We start with things like lemmas, theorems, etc.
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem*{scholium}{Scholium}
+\newtheorem{proposition}[lemma]{Proposition}
+
+% Now we create things like definitions, examples, comments, etc.  
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+\newenvironment{comments}{}{}
+\newenvironment{solution}{\smallskip\par\noindent\emph{Solution: }}{}
+\newenvironment{note}{}{}
+
+
+% Now I add a horizontal line at the end of definitions, examples,
+% etc.  Note: in theory the ntheorem package should make this easy,
+% but the last time I tried it (2010) the  package didn't always work.
+\newcommand{\myrule}{\nobreak\par\noindent\mbox{}\hspace*{0\textwidth}%
+            \rule{.66666\textwidth}{.005in}\hspace*{.333333\textwidth}\par}
+\makeatletter
+    \g@addto@macro\enddefinition\myrule
+    \g@addto@macro\endexample\myrule
+    \g@addto@macro\endcomments\myrule
+    \g@addto@macro\endlemma\myrule
+    \g@addto@macro\endtheorem\myrule
+    \g@addto@macro\endproposition\myrule
+    \g@addto@macro\endcor\myrule
+\makeatother
+
+\makeatletter
+% the following key values give the set up for hiding certain
+% environemnts. Note that "true" is just a dummy value.  It would work
+% equally well with "foo".  Each one of these redefines the outer
+% environment for an atom to turn the whole thing into a hidden
+% comment.  Note that the environments theorem, example, etc. do not
+% have to be written in any special way for hide and show to work.
+% They get clobbered by hide.  
+\define@key{hide}{scholium}[true]{\renewenvironment{scholium}{\comment}{\endcomment}}
+\define@key{hide}{proof}[true]{\renewenvironment{proof}{\comment}{\endcomment}}
+\define@key{hide}{lemma}[true]{\renewenvironment{lemma}{\comment}{\endcomment}}
+\define@key{hide}{comments}[true]{\renewenvironment{comments}{\comment}{\endcomment}}
+\define@key{hide}{cor}[true]{\renewenvironment{cor}{\comment}{\endcomment}}
+\define@key{hide}{definition}[true]{\renewenvironment{definition}{\comment}{\endcomment}}
+\define@key{hide}{example}[true]{\renewenvironment{example}{\comment}{\endcomment}}
+\define@key{hide}{theorem}[true]{\renewenvironment{theorem}{\comment}{\endcomment}}
+\define@key{hide}{note}[true]{\renewenvironment{note}{\comment}{\endcomment}}
+
+% Now this command can be given a comma separated list of names to
+% hide.  Thus, \HideEnvirons{ example, proof} would hide all examples
+% and proofs.
+\newcommand{\HideEnvirons}[1]{\setkeys{hide}{#1}}
+
+% The \ShowEnvirons command works like this: if it's argument is foo,
+% it redefines the *hide* family key for foo to do nothing.  Then, it
+% issues a \HideEnvirons command containing a list of all the atom
+% types.  So, everything is hidden *unless* the hide-family key has
+% been redefinied.
+  \define@key{show}{scholium}[true]{\define@key{hide}{scholium}{}}
+  \define@key{show}{proof}[true]{\define@key{hide}{proof}{}}
+  \define@key{show}{lemma}[true]{\define@key{hide}{lemma}{}}
+  \define@key{show}{comments}[true]{\define@key{hide}{comments}{}}
+  \define@key{show}{cor}[true]{\define@key{hide}{cor}{}}
+  \define@key{show}{definition}[true]{\define@key{hide}{definition}{}}
+  \define@key{show}{example}[true]{\define@key{hide}{example}{}}
+  \define@key{show}{theorem}[true]{\define@key{hide}{theorem}{}}
+\define@key{show}{note}[true]{\define@key{hide}{note}{}}
+
+% This command can be given a comma separated list of names to be shown
+\newcommand{\ShowEnvirons}[1]{\setkeys{show}{#1}\HideEnvirons{comments,cor,definition,example,proof,theorem,lemma,scholium,note}}
+\makeatother
+
+% \ShowEnvirons{definition,theorem}
+% \ShowEnvirons{definition}
+
+% Recall new commands: \footnote{}, \label{}
+% ------------------------------------------------------------------------------
+
+
+
+\title{}
+\author{Ted Jones-Healey}
+\date{}
+
+\begin{document}
+
+\tableofcontents
+
+\section{Twist of \texorpdfstring{$\Cc S_4$}{a}}
+We view the Klein $4$-group $T=\langle a,b\ |\ a^2=b^2=1, ab=ba\rangle$ as a subset of $\Cc S_4$ via the following embedding: $a\mapsto (12), b\mapsto (34)$. Then $\Cc S_4$ becomes a $\Cc T$-module algebra via an action of $T$ given by conjugation, i.e.  $a\rhd g:=(12)g(12),\ b\rhd g=(34)g(34)$. We take the following (non-trivial) cocycle of $\Cc T$:
+$$\chi=\frac{1}{2}(1\otimes 1+(12)\otimes 1+1\otimes (34)-(12)\otimes (34))$$
+We wish to investigate the structure of the twisted module algebra $(\Cc S_4)_\chi$. First recall that group algebras (over $\Cc$) are semisimple and therefore $\Cc S_4\cong \bigoplus_{i\in I} M_{n_i}(\Cc)$ for some matrix rings $M_{n_i}(\Cc)$ and some index set $I$. Note that under this isomorphism $\bigoplus_{i\in I} M_{n_i}(\Cc)$ is also a $\Cc T$-module algebra, again with $T$ acting by conjugation, this time by certain elements of $\bigoplus_i M_{n_i}(\Cc)$. Each of the matrix rings $M_{n_i}(\Cc)$ can be seen to be a $\Cc T$-module algebra too. Indeed, each ring $M_{n_i}(\Cc)$ is an ideal of $\bigoplus_i M_{n_i}(\Cc)$, and is therefore closed under multiplication from the left or right. As the action of $T$ on $M_{n_i}(\Cc)$ is just to conjugate by some element of $\bigoplus_i M_{n_i}(\Cc)$, we see this action must be closed, and therefore $M_{n_i}(\Cc)$ is a $\Cc T$-submodule of $\bigoplus_i M_{n_i}(\Cc)$. So each ring $M_{n_i}(\Cc)$ must be a $\Cc T$-module algebra in its own right.
+%induced by the isomorphism \eqref{artin} is also given . Since each ring $M_{n_i}(\Cc)$  is an ideal, this action must be closed on each of these and so $M_{n_i}(\Cc)$ is a $T$-submodule of $\bigoplus_i M_{n_i}(\Cc)$, and therefore a . 
+Next we prove a general result about module algebras:
+\begin{lemma} If $A, B$ are $H$-module algebras and $\chi$ is a cocycle for $H$, then $(A\oplus B)_\chi=A_\chi \oplus B_\chi$.
+\begin{proof}
+Certainly this equality is true at the level of vector spaces. It remains to verify the products on these two spaces coincide. If the products on $A$ and $B$ are denoted $m_A, m_B$ respectively, then the product on $A\oplus B$ is $m_{A\oplus B}((a,b)\otimes (a',b')):=(m_A(a\otimes a'), m_B(b\otimes b'))$. Note $A\oplus B$ forms an $H$-module algebra whereby $H$ acts diagonally, i.e. $h\rhd (a,b)=(h\rhd a, h\rhd b)$. Therefore $A\oplus B$ is amenable to twisting, and the resulting product is $(m_{A\oplus B})_\chi=m_{A\oplus B}(\chi^{-1}\rhd (a,b)\otimes (a',b'))$. Suppose $\chi^{-1}=\sum \chi_1\otimes \chi_2$ for some $\chi_1,\chi_2\in H$, then 
+\begin{align*}
+  (m_{A\oplus B})_\chi & =m_{A\oplus B}((\chi_1\rhd a, \chi_1\rhd b)\otimes (\chi_2\rhd a', \chi_2\rhd b'))\\
+  & =(m_A(\chi_1\rhd a \otimes \chi_2\rhd a'), m_B(\chi_1\rhd b \otimes \chi_2\rhd b'))\\
+  & =(m_A(\chi^{-1}\rhd (a,a'),m_B(\chi^{-1}\rhd (b,b'))))\\
+  & =((m_A)_\chi(a,a'), (m_B)_\chi(b,b')
+\end{align*}
+where this last line is the product on $A_\chi\oplus B_\chi$, as we required.
+\end{proof}
+\end{lemma}
+\nt Applying this Lemma we can deduce the following:
+\begin{equation}\label{main_isoms_pt_1}(\mathbb{C}S_4)\chi\cong (\bigoplus_{i}M_{n_i}(\mathbb{C}))\chi\cong \bigoplus_i M_{n_i}(\mathbb{C})_\chi
+\end{equation}
+The problem of understanding $(\Cc S_4)_\chi$ therefore reduces to understanding how matrix rings change under twists.\bb
+
+\nt Above we reasoned that each matrix ring $M_{n_i}(\Cc)$ is a $\Cc T$-module algebra, so in particular the group $T$ acts by automorphisms on $M_{n_i}(\Cc)$, for each $i\in I$. Since every automorphism of a matrix ring is inner, we find that for each $i\in I$, we can identify $T$ with a certain subset of invertible elements of $M_{n_i}(\Cc)$ such that the action of $T$ becomes conjugation by these elements.\bb
+
+\nt Now let us consider the twisted algebra $M_{n_i}(\Cc)_\chi$, which is also a $\Cc T$-module algebra since $\Cc T$ is commutative and therefore $\Cc T_\chi\cong \Cc T$. The action of $\Cc T$ on $M_{n_i}(\Cc)_\chi$ is the same as that of $\Cc T$ on $M_{n_i}(\Cc)$, which, by above, is given by conjugation (with respect to the product on $M_{n_i}(\Cc)$). 
+\begin{lemma}\label{submodule_lem} If $I$ is a $2$-sided ideal of $M_{n_i}(\Cc)_\chi$,  then $I$ is also a $\Cc T$-submodule of $M_{n_i}(\Cc)_\chi$.
+\begin{proof}
+For $t\in T,\ i\in I$ we have $t\rhd i=\tau \cdot i\cdot \tau^{-1}$ where $\cdot$ is the product on $M_{n_i}(\Cc)$ and $\tau$ is some invertible element of $M_{n_i}(\Cc)$.  At this point we notice $\tau \cdot i=\tau \star i$ where $\star$ is the product on $M_{n_i}(\Cc)_\chi$. This is true because 
+\begin{align*}
+  \chi\rhd \tau \otimes i & =\frac{1}{2}(\tau\otimes i+((12)\rhd \tau)\otimes i+\tau\otimes ((34)\rhd i)-((12)\rhd \tau)\otimes ((34)\rhd i))\\
+  & = \tau \otimes i
+\end{align*}
+since $(12)\rhd \tau=\mu\cdot \tau\cdot \mu^{-1}$ for some $\mu \in M_{n_i}(\Cc)$, where $\mu$ and $\tau$ are elements of a subgroup of $M_{n_i}(\Cc)$ isomorphic to $T$. Since this group is commutative and every element has order $2$ we see that $(12)\rhd \tau=\tau$, from which the above follows. Therefore $\tau\star i=\ \cdot\  (\chi\rhd \tau \otimes i)=\ \cdot\  (\tau\otimes i)=\tau \cdot i$. Similarly one shows that $(\tau \cdot i) \cdot \tau^{-1}=(\tau\cdot i) \star \tau^{-1}$, and so $\tau \rhd i=\tau\star i \star \tau^{-1}$. Finally we apply the fact $I$ is a $2$-sided ideal of $M_{n_i}(\Cc)_\chi$ to deduce $\tau\rhd i\in I$, as required.
+\end{proof}
+\end{lemma}
+\begin{cor}\label{ideal_of_both_algebras} If $I$ is a $2$-sided ideal of $M_{n_i}(\Cc)_\chi$, then the underlying subspace of $I$ also defines a $2$-sided ideal of $M_{n_i}(\Cc)$.
+\begin{proof}
+Let $a\in M_{n_i}(\Cc)$ and $i\in I$. Then $a\cdot i=\star (\chi\rhd a\otimes i)=\star ((\chi_1\rhd a)\otimes (\chi_2\rhd i))$ where $\chi=\sum \chi_1\otimes \chi_2$. Now $\chi_1\rhd a\in M_{n_i}(\Cc)$, and by Lemma \ref{submodule_lem} we know $I$ is a $\Cc T$-submodule and therefore $\chi_2\rhd i\in I$. Since $I$ is an ideal of $M_{n_i}(\Cc)_\chi$ we deduce $\star ((\chi_1\rhd a)\otimes (\chi_2\rhd i))\in I$. So we have shown $a\cdot i\in I$, and therefore $I$ is a left ideal of $M_{n_i}(\Cc)$. Similarly one shows it is a right ideal, and therefore $2$-sided.
+\end{proof}
+\end{cor}
+\nt From this corollary, and the fact that matrix rings are simple, we find that the twisted matrix rings $M_{n_i}(\Cc)_\chi$ must also be simple. Additionally, since simple $\Cc$-algebras are uniquely determined (up to isomorphism) by their dimension, we deduce $M_{n_i}(\Cc)_\chi\cong M_{n_i}(\Cc)$. We can now continue the series of isomorphisms in \eqref{main_isoms_pt_1} above,
+$$(\mathbb{C}S_4)\chi\cong (\bigoplus_{i}M_{n_i}(\mathbb{C}))\chi\cong \bigoplus_i M_{n_i}(\mathbb{C})_\chi \cong \bigoplus_i M_{n_i}(\mathbb{C})\cong \Cc S_4 $$ 
+
+\section{Twisting representations of rational Cherednik algebras}
+
+\subsection{Approach 1.}
+For a rational Cherednik algebra $H=H_c(G(m,p,n))$ with $m$ even, and $T=(C_2)^n$, consider a representation $\rho:H\rightarrow \End(V)$. Now, strictly under the assumption that $\frac{m}{p}$ is even, so that $T\subseteq G(m,p,n)$, we can equip $\End(V)$ with a $\Cc T$-module structure via: $t\rhd f=\rho(t)f\rho(t)^{-1}$ for $t\in T,\ f\in \End(V)$.
+\begin{lemma}\label{twisted_rep} $\rho$ is a $\Cc T$-module homomorphism, and additionally can be viewed as an algebra homomorphism of the twisted algebras: $\rho: H_\mathcal{F}\rightarrow \End(V)_\mathcal{F}$.
+\begin{proof}
+$\rho$ is a $\Cc T$-module homomorphism since $t\rhd \rho(h)=\rho(t)\rho(h)\rho(t)^{-1}=\rho(tht^{-1})=\rho(t\rhd h)$. Now let $m, m_\mathcal{F}$ denote the products on $H, H_\mathcal{F}$ respectively, and $m', m'_\mathcal{F}$ the products on $\End(V),\End(V)_\mathcal{F}$. Then $\rho(m_\mathcal{F}(h\otimes h'))=(\rho \circ m)(\mathcal{F}^{-1}\rhd h\otimes h') = (m' \circ (\rho\otimes \rho))(\mathcal{F}^{-1}\rhd h\otimes h')=m'(\mathcal{F}^{-1}\rhd (\rho\otimes \rho)(h\otimes h'))=m'_\mathcal{F}\circ (\rho\otimes \rho)(h\otimes h')$, where in the second equality we apply the fact $\rho$ is an algebra homomorphism of the untwisted algebras, and in the 3rd isomorphism we use the fact $\rho$ is a $\Cc T$-module homomorphism.
+\end{proof}
+\end{lemma}
+
+\nt Assuming now that $V$ is finite-dimensional, then for each choice of basis for $V$ we have an isomorphism $\End(V)\cong M_n(\Cc)$ for some $n\in \N$, and as we know matrix rings are simple. Using an identical line of reasoning to that used in the proofs of Lemma \ref{submodule_lem} and Corollary \ref{ideal_of_both_algebras} one can show that $\End(V)_\mathcal{F}\cong M_n(\Cc)_\mathcal{F}$ must also be simple. Therefore $\End(V)_\mathcal{F}\cong \End(V')$ for some $V' \cong V$. Using this isomorphism we arrive at a new representation, of the same dimension as before, but for the twisted rational Cherednik algebra: $\rho':H_\mathcal{F}\rightarrow \End(V')$.\bb
+
+%\nt \textcolor{red}{I've forgotten why we need the fact that $\rho$ is surjective, however here is justification why this is the case: if $\rho$ is an irreducible finite-dimensional representation $\rho:A\rightarrow \End(V)$, then it follows via the ``Density theorem'' (see Theorem 2.5 of \cite{etingof_representations}) that $\rho$ is surjective.}
+
+\subsection{Approach 2}
+As before we start with a representation $\rho:H\rt \End(V)$ for $H=H_c(G(m,p,n))$. Now $H$ is a subalgebra of $\overline{H}=H_c(G(m,1,n))$. Notice that $T\subseteq G(m,1,n)$. We can use $\rho$ to get an induced representation for $\overline{H}$ given by: $V'=\overline{H}\otimes_H V$.\bb
+
+\nt \textcolor{red}{Is $V'$ still finite dimensional? I think yes..} For groups $H\leq G$ where $V$ is a $\Cc H$-module, we have $\dim(\Cc G\otimes_{\Cc H}V)=\frac{|G|}{|H|}\cdot \dim(V)$. Do we have for $\Cc$-algebras $S\subseteq R$ (sharing identities), where $V$ is an $S$-module, that $\dim(R\otimes_S V)=\frac{\dim(R)}{\dim(S)}\cdot \dim(V)$?\bb
+
+\nt Now in our case $S$ and $R$ are both infinite-dimensional, but one is a ``finite-dimensional extension'' of the other.. $H=S(V)\otimes \Cc G(m,p,n)\otimes S(V^*)$ as a vector space, so 
+$$\dim(H)=\dim(S(V))^2\cdot |G(m,p,n)|=\dim(S(V))^2\cdot \frac{m^n n!}{p}$$ Similarly $\dim(\overline{H})=\dim(S(V))^2\cdot m^n n!$. Is there a rigorous way to conclude $\frac{\dim(\overline{H})}{\dim(H)}=p$??\bb
+
+\nt If so, then, by restriction, we have a new finite-dimensional representation $\rho'$ of $H$ on the space $V'$, which is of dimension $p\dim(V)$. We can define an action of $T$ on $\End(V')$ in an indentical fashion to Approach 1. Therefore it remains prove a second version of Lemma \ref{twisted_rep} for $\rho'$ to get a twisted representation of a rational Cherednik algebra.
+
+%\newpage
+
+\bibliographystyle{plain}
+\bibliography{../../../mymasterbib}
+
+\end{document}

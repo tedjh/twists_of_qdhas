@@ -1,0 +1,726 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper, margin=2.25cm, top=3cm ]{geometry}
+%\usepackage[margin=1in]{geometry}
+
+\usepackage[all]{xy}
+\usepackage[nottoc]{tocbibind}
+\usepackage{amsmath,amsthm,amsfonts,longtable,verbatim,tikz-cd,multicol,amssymb,wasysym,setspace,graphicx,titlesec,imakeidx,dynkin-diagrams,etoolbox}
+% Packages incompatible with plastex.
+%\usepackage{xspace}
+%\usepackage{mathtools}
+%\usepackage{mathrsfs}
+\usepackage[inline]{enumitem}
+\usepackage[colorlinks,unicode]{hyperref}
+\urlstyle{same}
+
+
+\setcounter{tocdepth}{2}
+%\titleformat{\subsubsection}[runin]{}{}{}{}[]
+\titleformat{\subsubsection}[runin]{\normalfont\bfseries}{\thesubsubsection.}{5pt}{}{}
+\titlespacing{\subsubsection}{0pt}{5pt}{10pt}
+
+\onehalfspacing
+
+\newcommand{\bb}{\medbreak}
+\newcommand{\nt}{\noindent}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Cc }{\mathbb{C}}
+\newcommand{\rt}{\xrightarrow{}}
+\newcommand{\xrt}{\xrightarrow}
+\newcommand{\cg}{\mathfrak{g}}
+\newcommand{\cd}{\cdot}
+\newcommand{\id}{\text{id}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\GL}{\text{GL}}
+\newcommand{\ad}{\text{ad}}
+\newcommand{\End}{\text{End}}
+\newcommand{\Der}{\text{Der}}
+\newcommand{\chr}{\text{char}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\rad}{\text{Rad}}
+\newcommand{\prim}{\text{prim}}
+\newcommand{\im}{\text{Im}}
+\newcommand{\spn}{\text{span}}
+\newcommand{\gsl}{\mathfrak{sl}}
+\newcommand{\iso}{\text{Iso}}
+\newcommand{\ind}{\text{Ind}}
+\newcommand{\ob}{\text{ob}}
+\newcommand{\DD}{\mathcal{D}}
+\newcommand{\aut}{\text{Aut}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\ux}{\underline{x}}
+\newcommand{\uy}{\underline{y}}
+\newcommand{\Rep}{\text{Rep}}
+\newcommand{\Tr}{\text{Tr}}
+\newcommand{\Mod}{\text{-Mod}}
+\newcommand{\bbw}{\overline{\overline{W}}}
+\newcommand{\bw}{\overline{W}}
+\newcommand{\bq}{\overline{q}}
+\newcommand{\op}{\text{op}}
+\newcommand{\Alg}{\text{Alg}}
+\newcommand{\gr}{\text{gr}}
+\newcommand{\hh}{\mathfrak{h}}
+\newcommand{\HH}{\text{HH}}
+\newcommand{\al}{\alpha}
+\newcommand{\dash}{\text{-}}
+\newcommand{\CL}{\text{Cl}}
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\dih}{\text{Dih}}
+\newcommand{\dic}{\text{Dic}}
+\newcommand{\spin}{\text{Spin}}
+\newcommand{\pin}{\text{Pin}}
+\newcommand{\SO}{\text{SO}}
+\newcommand{\UU}{\text{U}}
+\newcommand{\OO}{\text{O}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\F}{\mathcal{F}}
+
+
+% for drawing dynkin diagrams
+\def\row#1/#2!{#1_{\IfStrEq{#2}{}{n}{#2}} & \dynkin{#1}{#2}\\}
+\newcommand{\tble}[1]{
+   \renewcommand*\do[1]{\row##1!}
+   \[
+      \begin{array}{ll}\docsvlist{#1}\end{array}
+   \]
+}
+
+% this is to highlight words that are being defined and enter.
+\newcommand{\define}[1]{\textbf{#1}\index{#1}}
+\newcommand{\definex}[1]{\textbf{#1}}
+
+% The next two lines define a reasonable looking not divides sign.
+\DeclareMathSymbol{\nmid}{\mathrel}{AMSb}{"2D}
+\newcommand{\notdiv}{\nmid}
+
+% Make the tilde command wider
+\renewcommand{\tilde}{\widetilde}
+
+% the following two commands change the way the footnote symbol is
+% made to be old fashioned: *, dagger, etc.  
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+% We start with things like lemmas, theorems, etc.
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{cor}[lemma]{Corollary}
+\newtheorem*{scholium}{Scholium}
+\newtheorem{proposition}[lemma]{Proposition}
+
+% Now we create things like definitions, examples, comments, etc.  
+\theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{example}[lemma]{Example}
+\newenvironment{comments}{}{}
+\newenvironment{solution}{\smallskip\par\noindent\emph{Solution: }}{}
+\newtheorem{note}[lemma]{Note}
+
+\makeindex[intoc]
+
+
+\title{Twists of quantum Drinfeld Hecke algebras}
+\author{Edward Jones-Healey}
+\date{}
+
+\counterwithin*{section}{part}
+
+% Uncomment below to hide all proof's.
+%\let\proof\comment
+%\let\endproof\endcomment
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract} In Naidu and Witherspoon \cite{2011arXiv11115243N} the class of algebras known as quantum Drinfeld Hecke algebras, which generalise the widely studied rational Cherednik algebras, and also the braided Cherednik algebras introduced by Bazlov and Berenstein \cite{bazlov2009noncommutative}, were shown to arise as deformations of their associated graded algebras. In this context we reframe the main result of \cite{twistsrcas} which showed certain rational and braided Cherednik algebras are related via a Drinfeld twist. Specifically we show that if a pair of quantum Drinfeld Hecke algebras are related by Drinfeld twist, then their associated graded algebras are related by the same twist. Conversely, if two skew group algebras are related by a Drinfeld twist, then it is possible to preserve the twisting result when the algebras are deformed by certain ``equivariant'' Hochschild $2$-cocycles into quantum Drinfeld Hecke algebras.
+  
+%In the preprint \cite{twistsrcas} it was shown that certain rational and braided Cherednik algebras are related via a Drinfeld twist. We compare this result with Naidu and Witherspoon \cite{2011arXiv11115243N} which show quantum Drinfeld Hecke algebras, which generalise the rational and braided Cherednik algebras, arise as certain deformations of their associated graded algebras. In particular we show that if a pair of quantum Drinfeld Hecke algebras are related by a Drinfeld twist then their associated graded algebras, which are isomorphic to skew group algebras, are related by the same twist. Conversely, if two skew group algebras are related by a Drinfeld twist, then it is possible to preserve the twisting result when the algebras are deformed by certain ``equivariant'' Hochschild $2$-cocycles into quantum Drinfeld Hecke algebras.
+\end{abstract}
+
+\tableofcontents
+
+%\include{introduction}
+
+%\include{part_3}
+
+\section{Introduction}
+\subsection{Preliminaries}
+In this section we review several definitions and results from Naidu and Witherspoon \cite{2011arXiv11115243N} and the preprint \cite{twistsrcas}, before outlining our new results in Section \ref{new_results_sec}. Proofs will be the subject of the remainder of the article. Unless otherwise stated assume all objects in this text are $\Cc $-linear, with tensor products also taken over $\Cc $.\bb
+
+\nt Given a $\Cc $-vector space $V$ with basis $v_1,\dots,v_n$ and an $n\times n$-matrix $q=(q_{ij})$ such that $q_{ii}=1,q_{ij}q_{ji}=1$, we define a \define{skew symmetric algebra} as $S_q(V):=\Cc \langle v_1,\dots,v_n|\ v_iv_j=q_{ij}v_jv_i\ \forall i,j \rangle$, and a \define{skew exterior algebra} as $\bigwedge_q(V):=\Cc  \langle v_1,\dots,v_n|\ v_i v_j=-q_{ij} v_j v_i\rangle$. Now let $G$ be a group equipped with an action on $V$ that extends to an action by algebra automorphisms on $S_q(V)$.
+
+\begin{definition}\label{qDHA_defn} Let $\kappa:V\times V\rt \Cc  G$ be a bilinear map such that $\kappa(v_i,v_j)=-q_{ij}\kappa(v_j,v_i)$, and define
+$$H_{q,\kappa}:=T(V)\rtimes G/\langle v_i v_j-q_{ij}v_j v_i-\kappa(v_i,v_j)\rangle$$
+Here $T(V)\rtimes G$ denotes the smash product algebra with underlying vector space $T(V)\otimes \Cc  G$, identity $1_\Cc  \otimes 1_G$, and product: $(a\otimes g)\cdot (a'\otimes g')=(a\cdot (g\rhd a'))\otimes gg'$ for $a,a'\in T(V),\ g,g'\in G$, where the action of $G$ on $T(V)$ is given by naturally extending the action of $G$ on $V$. With $v_i$ in degree $1$ and $g\in G$ in degree $0$, $H_{q,\kappa}$ is a filtered algebra. $H_{q,\kappa}$ is called a \define{quantum Drinfeld Hecke algebra} if its associated graded algebra is isomorphic to the skew group algebra $S_q(V)\rtimes G$. Levandovsky and Shepler \cite{levandovskyy2014quantum} give the conditions on $\kappa$ that ensure $H_{q,\kappa}$ is a quantum Drinfeld Hecke algebra.
+\end{definition}
+
+\nt Drinfeld Hecke algebras (also known as graded Hecke algebras) arise in the special case $q_{ij}=1\ \forall i,j$. These include the symplectic reflection algebras, and hence all rational Cherednik algebras too. Of import to us is that the more general \textit{quantum} Drinfeld Hecke algebras include the \textit{braided} Cherednik algebras, a class of algebras introduced by Bazlov and Berenstein in \cite{bazlov2009noncommutative}. One example of such an algebra is the ``negative braided Cherednik algebra", which is, in a sense, the anticommutative analogue of a rational Cherednik algebra. An explicit characterisation of the negative braided Cherednik algebra as a quantum Drinfeld Hecke algebra was given in \cite{2011arXiv11115243N} (Remark 7.4).\bb
+
+\nt In Naidu and Witherspoon \cite{2011arXiv11115243N} the quantum Drinfeld Hecke algebras were characterised as deformations of the skew group algebras of the form $S_q(V)\rtimes G$. For a $\Cc $-algebra $R$, a \define{deformation over $\Cc [t]$} of $R$ is an associative $\Cc [t]$-algebra with underlying vector space $\Cc [t]\otimes_\Cc  R$ and product:
+$$r\ast s=rs +\mu_1(r\otimes s)t+\mu_2(r\otimes s)t^2+\dots$$
+for $\Cc $-linear maps $\mu_i:R\otimes R\rt R,\ i\in \N$, extended linearly over $\Cc [t]$. It turns out that associativity of $\ast$ implies $\mu_1$ is a Hochschild $2$-cocycle (see Definition \ref{equivariant_cocycle}). 
+
+\begin{theorem}\label{thm_2.2}\cite[Theorem 2.2]{2011arXiv11115243N} The quantum Drinfeld Hecke algebras over $\Cc [t]$ are precisely those deformations over $\Cc [t]$ of $S_q(V)\rtimes G$ where $\deg(\mu_i)=-2i$.
+\end{theorem}
+
+\nt The ``quantum Drinfeld Hecke algebras over $\Cc  [t]$" are $\Cc [t]$-linear analogues of the algebras in Definition \ref{qDHA_defn}. In particular, they have the form:
+\begin{equation}\label{qdha_over_ct}
+  H_{q,\kappa,t}:=T(V)\rtimes G[t]/\langle v_i v_j-q_{ij}v_j v_i - \sum_{g\in G} \kappa_g (v_i,v_j)tg\rangle
+\end{equation}
+where we use the notation $A[t]:=\Cc[t]\otimes A$ for an algebra $A$. Also $\kappa_g$ are defined such that $\kappa(v,w)=\sum_{g\in G}\kappa_g(v,w)g$. Note that $\deg(\mu_i)=-2i$ means that the map $\mu_i:(S_q(V)\rtimes G)^{\otimes 2}\rt S_q(V)\rtimes G$ is a map of graded vector spaces which sends elements of degree $j$ to elements of degree $j-2i$. By this theorem we can associate a Hochschild $2$-cocycle $\mu_1$ (which is a map of degree $-2$) to each quantum Drinfeld Hecke algebra.
+
+\begin{definition}\label{constant} \cite{2011arXiv11115243N}
+A \define{constant Hochschild $2$-cocycle} is a Hochschild $2$-cocycle of a skew group algebra $S_q(V)\rtimes G$ that is degree $-2$ as a map of graded vector spaces.
+\end{definition}
+
+\nt The following result shows that each constant Hochschild $2$-cocycles conversely gives rise to a quantum Drinfeld Hecke algebra:
+\begin{theorem}\cite[Theorem 4.4,4.6]{2011arXiv11115243N}\label{quantum_dh_alg} When the action of $G$ on $V$ extends to an action on $\bigwedge_q(V)$ by algebra automorphisms, each constant Hochschild $2$-cocycle $\alpha$ of $S_q(V)\rtimes G$ lifts to deformation of $S_q(V)\rtimes G$ over $\Cc [t]$ which is isomorphic to a quantum Drinfeld Hecke algebra $Q_\alpha$ with associated graded algebra isomorphic to $S_q(V)\rtimes G$.
+\end{theorem}
+
+\nt Finally, let us recall the main results from Bazlov, Berenstein, Jones-Healey and McGaw \cite{twistsrcas},
+
+\begin{theorem}\label{our_theorem}\cite[Proposition 5.1, Theorem 5.2]{twistsrcas} For complex reflection group $G=G(m,p,n)$ with $m$ even and reflection representation $V$, the corresponding rational Cherednik algebra $H_{c}(G)$ is a $\Cc  T$-module algebra for $T:=(C_2)^n$. Additionally there is a cocycle $\mu$ of $\Cc  T$ such that the Drinfeld twist of $H_c(G)$ by $\mu$ is isomorphic to the negative braided Cherednik algebra $\underline{H}_{\underline{c}}(\mu(G))$ where $\underline{c}=-c$.
+\end{theorem}
+
+\subsection{Statements of new results}\label{new_results_sec}
+
+Here we outline our new results as a series of three claims, whose precise statements and proofs will be given in the next sections.\bb
+
+\nt \definex{Claim 1:} if two quantum Drinfeld Hecke algebras are related by Drinfeld twist, then their associated graded algebras are related by the same twist.\bb
+
+\nt Using Theorem \ref{our_theorem} to provide an example of quantum Drinfeld Hecke algebras related by a twist we can deduce from the claim that:
+\begin{equation}\label{twist_skew_sym_algs_1}
+(S(V\oplus V^*)\rtimes G)_\mu=S_{-1}(V\oplus V^*)\rtimes \mu(G)
+\end{equation}
+Proving Claim 1 is the subject of Section \ref{claim_1_sec}. Next we consider going the opposite direction by taking a pair of skew group algebras related by twist - as in \eqref{twist_skew_sym_algs_1} - and asking whether we can deform each of these to produce a pair of quantum Drinfeld Hecke algebras also related by a twist. We saw in Theorem \ref{quantum_dh_alg} that deformations are tied to Hochschild $2$-cocycles, so we begin by showing there exists a correspondence between the cocycles of twisted algebras:\bb
+
+\nt \definex{Claim 2:} If $A$ is an $H$-module algebra, then each cocycle $\mu$ of $H$ induces an isomorphism between the space of $H$-equivariant Hochschild $2$-cocycles of $A$ (see Definition \ref{equivariant_defn}) and the space of $H_\mu$-equivariant Hochschild $2$-cocycles for $A_\mu$, i.e. we have a map
+\begin{equation}\label{cocycle_map}
+\HH_\rhd^2(A)\xrt{\sim} \HH_\rhd^2(A_\mu),\ [\alpha]\mapsto [\alpha_\mu]
+\end{equation}
+In particular this implies that if we have two algebras $A,B$ related by a twist $\mu$, i.e. $A_\mu\cong B$, then their respective spaces of equivariant Hochschild $2$-cocycles are isomorphic, i.e. $\HH_\rhd^2(A)\cong \HH_\rhd^2(B)$. Additionally if $\alpha$ is constant (as in Definition \ref{constant}), then $\alpha_\mu$ will also be constant. We prove this in Section \ref{claim_2_sec}.\bb
+
+\nt Next let us suppose we have skew group algebras $A=S_q(V)\rtimes G$ and $B=S_{q'}(V')\rtimes G'$, which are:
+\begin{itemize}
+  \item related by a Drinfeld twist, i.e. $A$ is an $H$-module algebra for some Hopf algebra $H$ and there exists a counital $2$-cocycle $\mu$ of $H$ such that $A_\mu\cong B$,
+  
+  \item such that $G$ and $G'$ act by algebra automorphisms on $\bigwedge_q(V)$ and $\bigwedge_{q'}(V')$ respectively, which allows us to apply Theorem \ref{quantum_dh_alg} to lift Hochschild $2$-cocycles on $A$ and $B$ to quantum Drinfeld Hecke algebras.
+\end{itemize}
+
+%\nt By Equation \eqref{twist_skew_sym_algs_1} our canonical example of such a pair of algebras is $A=S(V\oplus V^*)\rtimes G$ and $B=S_{-1}(V\oplus V^*)\rtimes \mu(G)$. With $A$ and $B$ given as above, we make several further claims:\bb
+
+
+\nt \definex{Claim 3:} The cocycles $\alpha$ and $\alpha_\mu$ arising from Claim 2 generate deformations which ``commute" with taking the Drinfeld twist by $\mu$, i.e. the following square commutes (up to isomorphism):
+$$\xymatrix@C=8em{
+Q_\alpha \ar[r]^{\text{Drinfeld twist by }\mu\qquad} & (Q_\alpha)_\mu\cong Q_{\hat{\alpha}_\mu}\\
+A \ar[u]^{\text{deformation by }\alpha} \ar[r]_{\text{Drinfeld twist by }\mu} & A_\mu \cong B \ar[u]_{\text{deformation by }\alpha_\mu}
+}$$
+where $Q_\alpha$ and $Q_{\hat{\alpha}_\mu}$ are quantum Drinfeld Hecke algebras arising, via Theorem \ref{quantum_dh_alg}, from $\alpha$ and $\alpha_\mu$ respectively. We will make this more precise in Section \ref{claim_3_sec}. The idea is that each appropriate Hochschild $2$-cocycle $\alpha$ can be used to ``deform'' a twisting result between skew group algebras, $A_\mu\cong B$, into a new twisting result between quantum Drinfeld Hecke algebras, $ (Q_\alpha)_\mu\cong Q_{\hat{\alpha}_\mu}$.\bb %In particular we have $(Q_\alpha)_\mu \cong Q_{\alpha_\mu}$, where $\alpha_\mu$ is given via \eqref{cocycle_map} and $Q_\alpha$, $Q_{\alpha_\mu}$ are quantum Drinfeld Hecke algebras deforming $A$ and $B$ respectively via Theorem \ref{quantum_dh_alg}.\bb
+
+%The Drinfeld twist result $A_\mu\cong B$ ``lifts" via each pair of Hochschild $2$-cocycles $(\alpha, \alpha_\mu)$ arising through Claim 2 to produce a new twisting result between quantum Drinfeld Hecke algebras. In particular the new twisting result is between the quantum Drinfeld Hecke algebras $Q_\alpha, Q_{\alpha_\mu}$ generated (via Theorem \ref{quantum_dh_alg}) by $(A,\alpha)$ and $(B,\alpha_\mu)$ respectively. We address this claim in Section \ref{claim_3_sec}.\bb
+
+%\nt  This claim can be illustrated as a commuting (up to isomorphism) diagram of twists and deformations: 
+%Inspecting the diagram below, Claim 2 essentially states that if we begin with the bottom horizontal arrow of the diagram, then there is a 1-1 correspondence between the set of vertical arrows we can use on the LHS of the diagram and the set of vertical arrows we can use on the RHS of the diagram. Claim 3 tells us that given the bottom arrow, a choice of left vertical arrow, and the corresponding right vertical arrow given by the 1-1 correspondence of Claim 2, then we can complete the diagram to produce a commuting square\footnote{Beware this is not a commuting diagram in the categorical sense since none of the arrows are algebra homomorphisms.} of deformations/twists using a top horizontal arrow which is just another Drinfeld twist by $\mu$.
+
+%To summarise, in Claim 1 we are assuming we have only the top horizontal edge in this diagram (i.e. a pair of quantum Drinfeld Hecke algebras related by Drinfeld twist) and deduce the twisting result given by the bottom horizontal edge by considering associated graded algebras. Alternatively, we assume we have the bottom horizontal edge (i.e. a pair of skew group algebras related by Drinfeld twist). Through Claim 2 we find that each choice of left vertical arrow for this diagram (given by an equivariant Hochschild $2$-cocycle $\alpha$) determines a unique (up to $2$-coboundary) equivariant Hochschild $2$-cocycle $\al_\mu$ to serve as the right vertical arrow. Given such a pair of vertical arrows, we find that Drinfeld twist by the cocycle $\mu$ serves as the top horizontal arrow and makes the diagram commute (up to isomorphism).\bb
+
+%particular $1-1$ correspondence between the left- and right-hand verticle edges of the diagram (i.e. between the constant and equivariant Hochschild $2$-cocycles of $S_q(V)\rtimes G$ and $S_{q'}(V')\rtimes G'$ respectively). Claim 3 tells us that given the bottom horizontal edge, and any particular pair of vertical edges given to us through the $1-1$ correspondence in Claim 2, then the same Drinfeld twist serves as the top edge and makes the diagram commute (up to isomorphism).
+
+%\nt It should be noted that none of the arrows in this diagram are algebra homomorphisms. 
+\nt This relationship between Drinfeld twists and deformations adds a new perspective to where the main result of \cite{twistsrcas} comes from, which established that certain rational and braided Cherednik algebras are related by a twist. Recalling that these algebras are also quantum Drinfeld Hecke algebras, we show in Section \ref{preprint_main_result_example_sec} that this twisting result indeed arises as a ``deformation" of a twisting result between skew group algebras.\bb
+
+\nt This suggests a strategy for finding further quantum Drinfeld Hecke algebras (or braided Cherednik algebras) that are related by a Drinfeld twist - look for skew group algebras related by twist and deform via suitable Hochschild $2$-cocycles. We apply this strategy in Section \ref{new_example_sec} to find a new example of quantum Drinfeld Hecke algebras related by a twist.
+%that result can be seen as arising, firstly, from the perhaps more fundamental twisting result between skew group algebras as shown in \eqref{twist_skew_sym_algs_1}, and secondly, by this fact that deforming by a Hochschild $2$-cocycle commutes, in the sense of the above diagram, with taking Drinfeld twist.\bb
+
+%fact that their associated graded algebras are related by the same twist, and that we have the correspondence between Hochschild $2$-cocycles given by \eqref{cocycle_map}, which allows for Drinfeld twists between the associated graded algebras to carry over to their deformations.\bb
+%rises as the ``lift'' of the twisting result between skew group algebras given in \eqref{twist_of_skew_group_algs} by some Hochschild $2$-cocycle of $S(V\oplus V^*)\rtimes G$.
+%$\underline{H}_c(\mu(G))$ can be characterised as a quantum Drinfeld Hecke algebra $H_{-1,\kappa}$ where
+%$$\kappa=f_1+\sum_{\epsilon'\in C_{\frac{m}{p}}\backslash \{1\}}(c_{\epsilon'}f_{\epsilon'}+c_1 \tilde{f})$$
+%for certain functions $f_{\epsilon'}, \tilde{f}$ arising from \cite{2011arXiv11115243N} (Theorem 7.3). 
+%It is important for what follows that the braided Cheredniks arise through Theorem \ref{quantum_dh_alg}, i.e. as the quantum Drinfeld Hecke algebras generated by constant Hochschild $2$-cocycles (assuming $G$ acts on $\bigwedge_q(V)$). In the negative braided case, we think this is true by the following reasoning: \bb
+%\nt Recall rational and braided Cherednik algebras are instances of quantum Drinfeld Hecke algebras generated by constant Hochschild $2$-cocycles. 
+%This suggests the following:
+%\begin{itemize}
+%  \item although little is known about how the rep theory of an algebra changes under Drinfeld twist, this task maybe easier to study when the algebras are skew group algebras. Then if anything is known (as I don't know yet) about how the representation theory of an algebra $A$ relates to the representation theory of its deformations over $\Cc [t]$, we might be able to apply the above to learn something about representations of braided Cherednik algebras.
+  
+
+
+
+\section{Twists of associated graded algebras}\label{claim_1_sec}
+
+In this section we address Claim 1 of the Introduction. First we recall some definitions and properties regarding filtered algebras and their associated graded algebras. A \define{filtered algebra} $Q$ has a filtration $\{F_\bullet\}$, i.e. subspaces $\{0\}=F_{-1}\subset F_0\subset F_1\subset \dots \subset Q$ such that $\cup_{i=0}F_i=Q$ and $F_i \cd F_j\subseteq F_{i+j}$. The \define{associated graded algebra} of $Q$ is given by the space $\gr(Q):=\bigoplus_{i\geq 0}F_i/F_{i-1}$ with product:
+\begin{equation}\label{product_ass_gr}
+F_i/F_{i-1}\times F_j/F_{j-1}\rt F_{i+j}/F_{i+j-1},\ (x+F_{i-1},y+F_{j-1})\mapsto xy+F_{i+j-1}
+\end{equation}
+
+\begin{lemma}\label{isom_filtered} An (iso)morphism of filtered algebras $\phi:Q\rt Q'$ induces an (iso)morphism between their associated graded algebras $\gr(\phi):\gr(Q)\rt gr(Q')$.
+\begin{proof}
+Suppose the filtered algebras $Q,Q'$ have filtrations $\{F_\bullet\},\{G_\bullet\}$ respectively. A morphism of these algebras is an algebra homomorphism $\phi:Q\rt Q'$ satisfying $\phi(F_i)\subseteq G_i\ \forall i$. Let $\gr(\phi):\gr(Q)\rt \gr(Q')$ be defined in the following way: for each $i\geq 0$ consider the maps $\gr(\phi)^i:F_i/F_{i-1}\rt G_i/G_{i-1},\ v+F_{i-1}\mapsto \phi(v)+G_{i-1}$, and let $\gr(\phi):=\bigoplus_{i\geq 0} \gr(\phi)^i$. Each $\gr(\phi)^i$ is well-defined: if $v+F_{i-1}=v'+F_{i-1}$ then $v-v'\in F_{i-1}$ and $\phi(v-v')=\phi(v)-\phi(v')\in G_{i-1}$, hence $\phi(v)+G_{i-1}=\phi(v')+G_{i-1}$. Clearly $\gr(\phi)$ is a linear map. Finally it is an algebra homomorphism: for $a=x+F_{i-1}, b=y+F_{j-1}$ then applying \eqref{product_ass_gr} we find $\gr(\phi)(ab)=\gr(\phi)(xy+F_{i+j-1})=\phi(xy)+G_{i+j-1}=\phi(x)\phi(y)+G_{i+j-1}=\gr(\phi)(a)\gr(\phi)(b)$, as required.\bb
+
+\nt If $\phi$ is additionally an isomorphism of filtered algebras, i.e. it has an inverse $\phi^{-1}$ that satisfies $\phi^{-1}(G_i)\subseteq F_i$, then we have algebra homomorphisms $\gr(\phi):\gr(Q)\rt \gr(Q')$ and $\gr(\phi^{-1}):\gr(Q')\rt \gr(Q)$. Now $\gr(\phi)\gr(\phi^{-1})(x+G_{i-1})=\gr(\phi)(\phi^{-1}(x)+F_{i-1})=\phi(\phi^{-1}(x))+G_{i-1}=x+G_{i-1}$, and similarly $\gr(\phi^{-1})\gr(\phi)=\id_{\gr(Q)}$. Hence $\gr(\phi^{-1})=\gr(\phi)^{-1}$, and we deduce $\gr(\phi)$ is an algebra isomorphism.
+\end{proof}
+\end{lemma}
+
+\begin{lemma}\label{ass_is_module_algebra} Suppose $Q$ is a filtered algebra and an $H$-module algebra for a Hopf algebra $H$ acting by degree-preserving endomorphisms. Additionally let $\mu$ be a $2$-cocycle on $H$. Then 
+\begin{enumerate}  
+  \item the associated graded algebra $\gr(Q)$ has a natural $H$-module algebra structure.
+  \item the Drinfeld twist $Q_\mu$ inherits the structure of a filtered algebra from $Q$.
+\end{enumerate}
+\begin{proof}
+(1). Suppose $Q$ has filtration $\{F_\bullet\}$, so $\gr(Q)=\bigoplus_i F_i/F_{i-1}$. Since the action of $H$ is degree-preserving we have $h\rhd x\in F_i\ \forall h\in H,x \in F_i$. Therefore we can define an action of $H$ on $F_i/F_{i-1}$ as $h\rhd x+F_{i-1}=(h\rhd x)+F_{i-1}$. This indeed makes each subspace $F_i/F_{i-1}$ an $H$-module: $(gh)\rhd v+F_{i-1}=((gh) \rhd v)+F_{i-1}=(g\rhd(h\rhd v))+F_{i-1}=g\rhd (h\rhd (v+F_{i-1}))$ and $1\rhd (v+F_{i-1})=(1\rhd v)+F_{i-1}=v+F_{i-1}$. As a direct sum of $H$-modules $\gr(Q)$ is itself an $H$-module.
+\iffalse
+Let us denote the filtration on $Q$ as $\{F_\bullet\}$, and the action of $H$ on $Q$ as the linear map $\rhd:H\otimes Q\rt Q$. By the degree-preserving assumption we have for each Note $\rhd(h,-):Q\rt Q$ are linear maps for each $h\in H$. These are additionally filtered linear maps by the fact that the action is degree-preserving, i.e. $\rhd(h,F_i)\subseteq F_i$. So by the discussion above, we get induced linear maps $\gr(\rhd(h,-)):\gr(Q)\rt \gr(Q)$ for each $h\in H$, defined as $\gr(\rhd(h,-)):=\bigoplus_{i\geq 0}\gr(\rhd(h,-))^i$ where
+$$\gr(\rhd(h,-))^i:F_i/F_{i-1}\rt F_i/F_{i-1}, v+F_{i-1}\mapsto (h\rhd v)+F_{i-1}$$
+So we define the action of $H$ on $F_i/F_{i-1}$ as follows, 
+$$h\rhd v+F_{i-1}:=\gr(\rhd(h,-))(v+F_{i-1})=(h\rhd v)+F_{i-1}$$
+and extend this action linearly to the rest of $\gr(Q)$. %Suppose $v\in Q$ is degree $i$, so $v\in F_i$ but $v\notin F_{i-1}$. Then let $h\rhd v+F_{i-1}:=(h\rhd v)+F_{i-1}$, and by our assumption that the action of $H$ is degree preserving, we know $h\rhd v$ is still of degree $i$. 
+We check this firstly makes $\gr(Q)$ an $H$-module.
+\begin{itemize}
+  \item $gh\rhd (v+F_{i-1})=(gh \rhd v)+F_{i-1}=g\rhd(h\rhd v)+F_{i-1}=g\rhd (h\rhd (v+F_{i-1}))$
+  
+  \item $1\rhd (v+F_{i-1})=(1\rhd v)+F_{i-1}=v+F_{i-1}$
+\end{itemize}
+\fi
+It is additionally an $H$-module algebra:
+\begin{itemize}
+  \item The unit of $\gr(Q)$ is given by $1+F_{-1}$ where $1$ is the unit of $Q$ which is degree $0$ in the filtration on $Q$. So: $g\rhd 1+F_{-1}=(g\rhd 1)+F_{-1}=(\epsilon(g)1)+F_{-1}=\epsilon(g)(1+F_{-1})$, since $Q$ is an $H$-module algebra so $h\rhd 1=\epsilon(h)1$ where $\epsilon$ is the counit of $H$.
+  
+  \item Let $\triangle$ be the coproduct on $H$, and in Sweedler notation $\triangle(h)=h_{(1)}\otimes h_{(2)} \forall h\in H$. Since $Q$ is an $H$-module algebra, $h\rhd vw=(h_{(1)}\rhd v)\cd (h_{(2)}\rhd w)$. Finally,
+  \begin{align*}
+  h\rhd (v+F_{i-1})\cd (w+F_{j-1}) & = h\rhd (vw+F_{i+j-1})= (h\rhd vw)+F_{i+j-1}\\
+    & =(h_{(1)}\rhd v)\cd (h_{(2)}\rhd w)+F_{i+j-1}\\
+    & =\bigg((h_{(1)}\rhd v)+F_{i-1} \bigg)\cd \bigg((h_{(2)}\rhd w)+F_{j-1} \bigg)\\
+    & = \bigg(h_{(1)}\rhd (v+F_{i-1})\bigg)\cd \bigg(h_{(2)}\rhd (w+F_{j-1})\bigg)
+  \end{align*} 
+\end{itemize}
+\nt Hence all conditions are checked, and $\gr(Q)$ is an $H$-module algebra.\bb
+
+\nt (2). $Q_\mu$ has same underlying vector space as $Q$, so the filtration $\{F_\bullet\}$ on $Q$ is also a filtration on the vector space of $Q_\mu$. If $m$ denotes product on $Q$ and $v\in F_i,w\in F_j$, then we know $m(v\otimes w)\in F_{i+j}$. Since $H$ acts by degree preserving homomorphisms we see $m_\mu(v\otimes w):=m(\mu^{-1}\rhd v\otimes w)\in F_{i+j}$, as required.
+\end{proof}
+\end{lemma}
+
+%\nt Recall that quantum Drinfeld Hecke algebras are filtered algebras whose associated graded algebras are isomorphic to skew group algebras of the form $S_q(V)\rtimes G$.
+
+\begin{theorem}\label{dh_algebra_to_ass} Let $Q,\underline{Q}$ be quantum Drinfeld Hecke algebras whose associated graded algebras are isomorphic, as graded algebras, to $S_q(V)\rtimes G$ and $S_{q'}(V')\rtimes G'$ respectively. Suppose further $Q$ is an $H$-module algebra for some Hopf algebra $H$ acting by degree-preserving homomorphisms on $Q$, and that there is a $2$-cocycle $\mu$ of $H$ such that the Drinfeld twist $Q_\mu$ is isomorphic, as a filtered algebra, to $\underline{Q}$ (for the filtration on $Q_\mu$ given by Lemma \ref{ass_is_module_algebra} (2)). Then the algebras $S_q(V)\rtimes G$ and $S_{q'}(V')\rtimes G'$ are related by the same twist, i.e.
+\begin{equation}\label{dh_algebra_to_ass_eqn}(S_q(V)\rtimes G)_\mu\cong S_{q'}(V')\rtimes G'\end{equation}
+where this isomorphism is additionally an isomorphism of graded algebras.
+\begin{proof}
+By Lemma \ref{ass_is_module_algebra}(1), $\gr(Q)$ is an $H$-module algebra, and so $S_q(V)\rtimes G$ also is. Therefore we can consider the Drinfeld twist of $S_q(V)\rtimes G$ by the cocycle $\mu$. We prove \eqref{dh_algebra_to_ass_eqn} via the following sequence of graded algebra isomorphisms:
+\begin{equation}\label{chain_isoms}
+  S_{q'}(V')\rtimes G'\cong \gr(\underline{Q})\cong \gr(Q_\mu)\cong \gr(Q)_\mu\cong (S_q(V)\rtimes G)_\mu
+\end{equation}
+The first and last of these isomorphisms follow by definition of $Q$ and $\underline{Q}$ respectively, along with the fact that the action of $H$ is degree-preserving (this ensures the last isomorphism, which involves a twist by $\mu$, isn't just an algebra isomorphism, but a graded algebra isomorphism too). The second isomorphism follows by applying Lemma \ref{isom_filtered} with the fact $\underline{Q}\cong Q_\mu$ as filtered algebras.\bb
+
+\nt Finally we tackle the third isomorphism of \eqref{chain_isoms}. Since $Q_\mu$ and $Q$ share the same underlying vector space and filtration, the algebras $\gr(Q_\mu)$ and $\gr(Q)$ also share the same underlying vector space. This implies $\gr(Q_\mu)$ and $\gr(Q)_\mu$ share the same underlying vector space too. We show the products on $\gr(Q_\mu)$ and $\gr(Q)_\mu$ coincide, deducing these algebras are equal, so certainly isomorphic as graded algebras. If $m_\mu$ is the product on $Q_\mu$, the product on $\gr(Q_\mu)$ is given, via \eqref{product_ass_gr}, by
+\begin{equation*}\label{mu_gr_product}
+\gr(m_\mu)(v+F_{i-1}\otimes w+F_{j-1})=m_\mu(v\otimes w)+F_{i+j-1}
+\end{equation*}
+If the product on $\gr(Q)$ is given similarly by $\gr(m)(v+F_{i-1}\otimes w+F_{j-1})=m(v\otimes w)+F_{i+j-1}$, we see the product for $\gr(Q)_\mu$ is:
+\begin{align*}
+\gr(m)_\mu(v+F_{i-1}\otimes w+F_{j-1}) & :=\gr(m)(\mu^{-1}\rhd v+F_{i-1}\otimes w+F_{j-1})\\
+& = \gr(m)\bigg(\sum_k \mu_k\rhd (v+F_{i-1})\otimes \mu'_k\rhd (w+F_{j-1}) \bigg)\\
+& = \gr(m)\bigg(\sum_k (\mu_k\rhd v)+F_{i-1}\otimes (\mu'_k\rhd w)+F_{j-1}\bigg)\\
+& = \sum_k m((\mu_k\rhd v)\otimes (\mu'_k\rhd w))+F_{i+j-1}\\
+& = m(\mu^{-1}\rhd v\otimes w)+F_{i+j-1}\\
+& = \gr(m_\mu)(v+F_{i-1}\otimes w+F_{j-1})
+\end{align*}
+where $\mu^{-1}=\sum_k \mu_k\otimes \mu'_k$ for some $\mu_k,\mu'_k\in H$.
+%Firstly by Proposition \ref{ass_is_module_algebra} with $A=Q$, we deduce that $\gr(Q)\cong S_q(V)\rtimes G$ is an $H$-module algebra, and so it makes sense to take the Drinfeld twist of $S_q(V)\rtimes G$ by the cocycle $\mu$. Recall the algebras $Q$ and $\gr(Q)\cong S_q(V)\rtimes G$ have isomorphic underlying vector spaces, and similarly for $\underline{Q}$ and $S_{q'}(V')\rtimes G'$. Additionally, by definition of Drinfeld twist, $Q$ and $Q_\mu$ have equal underlying vector spaces, and by our assumption $Q_\mu\cong \underline{Q}$, we deduce $(S_q(V)\rtimes G)_\mu \cong S_{q'}(V')\rtimes G'$ are isomorphic as vector spaces.\bb
+
+%\nt It remains to show the product on $(S_q(V)\rtimes G)_\mu$ coincides with that on $S_{q'}(V')\rtimes G'$. Let $m,\underline{m},m_\mu$ denote the products on $Q,\underline{Q},Q_\mu$ respectively. Since $Q_\mu\cong \underline{Q}$ we have $m_\mu=\underline{m}$. Now $Q$ is of the form $T(V)\rtimes G/\langle v_iv_j-q_{ij}v_j v_i-\kappa(v_i,v_j)\rangle$ where $v_i$ is given degree $1$ and $g\in G$ degree $0$. The filtration on $\underline{Q}$ is given similarly. Since $Q$ and $\underline{Q}$ have isomorphic underlying vector spaces we deduce \textcolor{red}{(Justify)} they have the same filtrations, i.e. $F_i=\underline{F}_i\ \forall i$. Let $v,w\in \underline{Q}$ be degree $i,j$ respectively, then take the following product in $\gr(\underline{Q})$:
+%\begin{align*}
+%(v+\underline{F}_{i-1})\cd (w+\underline{F}_{j-1}) & = \underline{m}(v\otimes w)+\underline{F}_{i+j-1}\\
+%  & = m_\mu(v\otimes w)+\underline{F}_{i+j-1}\\
+%  & = m_\mu(v\otimes w)+ F_{i+j-1}
+%\end{align*}
+%where it can shown that the final expression is the product of $v+F_{i-1}=v+\underline{F}_{i-1}$ and $w+F_j=w+\underline{F}_{j-1}$ in $\gr(Q)_\mu=(S_q(V)\rtimes G)_\mu$.
+\end{proof}
+\end{theorem}
+
+\begin{cor}\label{cor_to_preprint_main_result} The associated graded algebras of the rational and negative braided Cherednik algebras $H_c(G),\underline{H}_{\underline{c}}(\mu(G))$ in Theorem \ref{our_theorem} are related by a Drinfeld twist:
+\begin{equation}\label{twist_ass}(S(V\oplus V^*)\rtimes G)_\mu\cong S_{-1}(V\oplus V^*)\rtimes \mu(G)\end{equation}
+where this isomorphism is additionally an isomorphism of graded algebras.
+\begin{proof}
+This result follows immediately via Theorems \ref{our_theorem} and \ref{dh_algebra_to_ass}, however we first must actually check the conditions of Theorem  \ref{dh_algebra_to_ass} are satsified in order for us to apply it. Firstly the algebras $H_c(G),\underline{H}_{\underline{c}}(\mu(G))$ are indeed quantum Drinfeld Hecke algebras with associated graded algebras isomorphic, as graded algebras, to $S(V\oplus V^*)\rtimes G$ and $S_{-1}(V\oplus V^*)\rtimes \mu(G)$ respectively. By Theorem \ref{our_theorem} we know $H_c(G)$ is a $\Cc  T$-module algebra, but it remains to check the action is degree-preserving with respect to the filtration on $H_c(G)$. It is enough to check the action preserves the degree of the generators of $H_c(G)$, which are the elements of the group $G$ (degree $0$), the basis vectors $x_i$ of $V$ and $y_i$ of $V^*$ (degree $1$). For $t\in T$ we have $t\rhd g:=tgt\in G$, so $\deg(t\rhd g)=0=\deg(g)$. Also, $t\rhd x_j=\pm x_j\in V$ and $t\rhd y_j=\pm y_j\in V^*$, so $\deg(t\rhd x_j)=1=\deg(x_j)$ as required, and similarly for $y_j$. So the action is indeed degree-preserving.\bb
+
+\nt Finally we must check the algebra isomorphism $\phi: \underline{H}_{\underline{c}}(\mu(G))\rt (H_c(G))_\mu$ in the proof of Theorem \ref{our_theorem} is an isomorphism of filtered algebras. $\underline{H}_{\underline{c}}(\mu(G))$ is filtered with elements of $\mu(G)$ in degree $0$ and elements $\underline{x}_i,\underline{y}_i$ in degree $1$. Also $\phi$ maps $\underline{x}_i\mapsto x_i$, $\underline{y}_i\mapsto y_i$ and $\Cc  \mu(G)\mapsto \Cc  G$, so it is degree-preserving on the generators of $\underline{H}_{\underline{c}}(\mu(G))$, and therefore a morphism of filtered algebras. Likewise the inverse $\phi^{-1}$ would be degree-preserving on generators, so $\phi$ is isomorphism of filtered algebras.
+\end{proof}
+\end{cor}
+
+
+\section{Equivariant Hochschild \texorpdfstring{$2$}{2}-cocycles}\label{claim_2_sec}
+
+In this section we prove Claim 2 from the Introduction. We begin with some definitions.
+
+\begin{definition}\label{equivariant_cocycle} A \define{Hochschild $2$-cocycle} of an algebra $A$ is given by a linear map $\alpha:A\otimes A\rt A$ such that $a \alpha(b\otimes c)+\alpha(a\otimes bc)=\alpha(ab\otimes c)+\alpha(a\otimes b) c\ \forall a,b,c\in A$. Denoting the product on $A$ by $m:A\otimes A\rt A$, we can reexpress this condition as the following equality of maps $A\otimes A\otimes A\rt A$:
+\begin{equation}\label{Hochschild_cocycle_1}
+m\circ (\id\otimes \alpha)+\alpha\circ (\id\otimes m)=m\circ (\alpha\otimes \id)+\alpha\circ (m\otimes \id)
+\end{equation}
+%As an aside, notice this is essentially an associativity condition. Indeed every Hochschild $2$-cocycle $\alpha$ defines an ``infinitesimal deformation", which is an associative product on $A[t]/(t^2)$ given by $m'(a\otimes b):=m(a\otimes b)+\alpha(a\otimes b)t$ (see \cite{alma992981689925201631} Chapter 5). %Specialising this at $t=1$ gives an associative algebra whose product can be identified with $m+\alpha$ (\textcolor{red}{not 100\% about this}).\bb
+Additionally, a \define{$2$-coboundary} is a Hochschild $2$-cocycle $\alpha$ such that 
+\begin{equation}\label{2_coboundary}\alpha(a\otimes b)=m(a\otimes \beta(b))-\beta(m(a\otimes b))+m(\beta(a)\otimes b)\end{equation}
+for some linear map $\beta:A\rt A$.
+\end{definition}
+
+\nt The following simple result will be useful in the next section,
+\begin{lemma}\label{isomorphism_cocycle_lem} Let $\psi:(A,m_A) \xrt{\sim} (B,m_B)$ be an algebra isomorphism and $\alpha$ be a Hochschild $2$-cocycle on $A$. Then $\hat{\alpha}:=\psi\circ \alpha \circ (\psi^{-1}\otimes \psi^{-1})$ is a Hochschild $2$-cocycle on $B$.
+\begin{proof}
+Since $\psi$ is an algebra homomorphism we have $m_B\circ (\psi\otimes \psi)=\psi\circ m_A$, and so $m_B=\psi\circ m_A\circ (\psi^{-1}\otimes \psi^{-1})$. Then 
+$$m_B\circ (\id_B\otimes \hat \alpha)+\hat \alpha \circ (\id_B\otimes m_B)=\psi\circ [m_A\circ (\id_A\otimes \alpha)+\alpha\circ (\id_A\otimes m_A)]\circ (\psi^{-1}\otimes \psi^{-1}\otimes \psi^{-1})$$
+We can apply \eqref{Hochschild_cocycle_1} to the expression in the middle and on rearranging this is easily seen to be equal to $m_B\circ (\hat \alpha\otimes \id_B)+\hat \alpha\circ (m_B\otimes \id_B)$, as required.
+\end{proof}
+\end{lemma}
+
+\nt When $A$ is an $H$-module algebra for some Hopf algebra $H$ (i.e. an algebra object in $H\Mod$) we will want to distinguish those Hochschild $2$-cocycles that are compatible with the action of $H$:
+
+\begin{definition}\label{equivariant_defn} An \define{$H$-equivariant Hochschild $2$-cocycle} is a Hochschild $2$-cocycle $\alpha$ which commutes with the action of $H$, i.e. 
+  \begin{equation}\label{equivariant_action_1}
+    h\rhd \alpha(a\otimes b)=\alpha(\triangle(h)\rhd a\otimes b)\hspace{.5cm}\forall h\in H,a,b\in A
+  \end{equation}
+  In other words $\alpha$ is an $H$-module homomorphism with respect to the natural $H$-module structure on $A\otimes A$. For a group algebra $H=\Cc  G$, for example, this says $g\rhd \alpha(a\otimes b)=\alpha((g\rhd a)\otimes (g\rhd b))\ \forall g\in G$. %\textcolor{red}{Check if this is equivalent to the definition of Hochschild $2$-cocycle in the category $H\Mod$, in the sense of \cite{ARDIZZONI2007297}, and additionally when $H$ is subalgebra of $A$ to $2$-cocycles of ``relative Hochschild cohomology'' of $A$ wrt $u:H\hookrightarrow A$}. 
+\end{definition}
+\begin{definition}\label{equivariant_coboundary} An \define{$H$-equivariant Hochschild $2$-coboundary} is a $2$-coboundary $\alpha$ satisfying \eqref{2_coboundary} for some linear map $\beta:A\rt A$ which is also an $H$-module homomorphism, i.e. $h\rhd \beta(a)=\beta(h\rhd a)\ \forall h\in H,a\in A$.
+\end{definition}
+
+\nt Notice that every $H$-equivariant $2$-coboundary is also $H$-equivariant as a $2$-cocycle, i.e. in the sense of Definition \ref{equivariant_defn}. However a $2$-coboundary that is $H$-equivariant as a $2$-cocycle, i.e. in the sense of Definition \ref{equivariant_defn}, is not neccessarily an $H$-equivariant $2$-coboundary in the sense of Definition \ref{equivariant_coboundary}.\bb
+%\nt Since a $2$-coboundary is also a $2$-cocycle, coboundaries can be viewed as $H$-equivariant in the sense of boin both in the  the requirement in Definition \ref{equivariant_coboundary} is stronger requirement than that of the coboundary simply being $H$-equivariant as a $2$-cocycle, in the 
+
+%Notice that a Hochschild $2$-coboundaries can be $H$-equivariant. Since $2$-coboundaries are themselves $2$-cocycles, they can firstly be $H$-equivariant in the sense of Definition \ref{equivariant_defn}. Whereas Definition \ref{equivariant_coboundary} gives a second, stronger, notion of $H$-equivariance. It is indeed stronger since one can check that a $2$-coboundary that is $H$-equivariant in the sense of Definition \ref{equivariant_coboundary} must also be $H$-equivariant in the sense of Definition \ref{equivariant_defn}. Of these two notions of $H$-equivariance, however, it is the stronger one given in Definition \ref{equivariant_coboundary} that we will require in what follows.\bb
+
+\nt An obvious equivalence relation can be defined on the $H$-equivariant Hochschild $2$-cocycles whereby two cocycles are related to each other if their difference is an $H$-equivariant $2$-coboundary (in the sense of Definition \ref{equivariant_coboundary}). We briefly check this is indeed an equivalence relation:
+\begin{itemize}
+  \item Reflexivity: $\alpha\sim \alpha$ since the difference $\alpha-\alpha=0$ is the trivial $2$-coboundary given by $\beta=0$, where $\beta$ trivially commutes with the action of $H$, as required.
+  \item Symmetry: If $\alpha\sim \alpha'$, then $\alpha-\alpha'$ is a $2$-coboundary given by some $H$-module homomorphism $\beta$. Therefore $\alpha'-\alpha$ is also a $2$-coboundary via the homomorphism  using $-\beta$, which also commutes with $H$.
+  \item Transitivity: Suppose $\alpha\sim \alpha'$, where $\alpha-\alpha'$ is a coboundary given by $H$-module homomorphism $\beta$, and $\alpha'\sim \alpha''$ is similarly given by a homomorphism $\gamma$. Then $\alpha-\alpha''$ is a coboundary given by the homomorphism $\beta+\gamma$, so we have $\alpha\sim \alpha''$.
+\end{itemize}
+Let $\HH^2_\rhd (A)$ denote the vector space of equivalence classes of $H$-equivariant Hochschild $2$-cocycles on $A$.
+
+\begin{theorem}\label{cocycle_map_proof} For $H$-module algebra $A$, suppose $\alpha$ is an $H$-equivariant Hochschild $2$-cocycle of $A$ and $\mu$ is a counital $2$-cocycle of $H$. Let $H_\mu$ and $A_\mu$ denote the Drinfeld twists of $H$ and $A$ by $\mu$ respectively. Then the following is an $H_\mu$-equivariant Hochschild $2$-cocycle of $A_\mu$:
+$$\alpha_\mu:A_\mu\otimes A_\mu\rt A_\mu,\ a\otimes b\mapsto \alpha(\mu^{-1}\rhd a\otimes b)$$
+Additionally, if $\alpha$ is an $H$-equivariant $2$-coboundary of $A$ then $\alpha_\mu$ is an $H_\mu$-equivariant $2$-coboundary of $A_\mu$. Therefore we have a well-defined map $\HH_\rhd^2(A)\rt \HH_\rhd^2(A_\mu),[\alpha]\mapsto [\alpha_\mu]$ between equivalence classes of equivariant cocycles. This is an isomorphism since Drinfeld twist by $\mu^{-1}$ induces the inverse map.
+
+\begin{proof} Let $m$ denote the product on $A$, and by assumption, $\alpha$ satisfies \eqref{Hochschild_cocycle_1}. Firstly we show $\alpha_\mu$ is a Hochschild $2$-cocycle of $A_\mu$, which is the algebra with product defined as: $m_\mu(a\otimes b):=m(\mu^{-1}\rhd a\otimes b)$. Suppose $\mu^{-1}=\sum \mu_1\otimes \mu_2$ for some $\mu_1,\mu_2\in H$ (for better readability we omit the summation indices). In analogy to \eqref{Hochschild_cocycle_1}, $\alpha_\mu$ is a Hochschild $2$-cocycle of $A_\mu$ if,
+\begin{equation}\label{Hochschild_cocycle_2}
+m_\mu\circ (\id\otimes \alpha_\mu)+\alpha_\mu\circ (\id\otimes m_\mu)=m_\mu\circ (\alpha_\mu\otimes \id)+\alpha_\mu\circ (m_\mu\otimes \id)
+\end{equation}
+We check this by showing the results of each side applied to an arbitrary element $a\otimes b\otimes c$ coincide. We start by applying the LHS of \eqref{Hochschild_cocycle_2} to $a\otimes b\otimes c$:
+\begin{align*}
+(m_\mu\circ (\id\otimes \alpha_\mu)+\alpha_\mu\circ & (\id\otimes m_\mu)) (a\otimes b\otimes c) = m(\mu^{-1}\rhd \alpha(\mu^{-1}\rhd a\otimes b)\otimes c)+\alpha(\mu^{-1}\rhd m(\mu^{-1}\rhd a\otimes b)\otimes c)\\
+ & = m(\mu_1\rhd \alpha(\mu^{-1}\rhd a\otimes b)\otimes (\mu_2\rhd c))+\alpha(\mu_1\rhd m(\mu^{-1}\rhd a\otimes b)\otimes (\mu_2\rhd c))\\
+ &= m(\alpha(\triangle(\mu_1)\mu^{-1}\rhd a\otimes b)\otimes (\mu_2\rhd c))+\alpha(m(\triangle(\mu_1)\mu^{-1}\rhd a\otimes b)\otimes (\mu_2\rhd c))
+\end{align*}
+where in the final line we apply the $H$-equivariance of $\alpha$, and the fact $A$ is an $H$-module algebra so $m$ commutes with the action of $H$ in exactly the same way as $\alpha$. This now becomes:
+\begin{align}\label{cocycle_proof_eq_1}
+ & = (m\circ (\alpha\otimes \id)+\alpha\circ (m\otimes \id))[\triangle(\mu_1)\mu^{-1}\rhd (a\otimes b)\otimes (\mu_2\rhd c)]\nonumber\\
+ & = (m\circ (\alpha\otimes \id)+\alpha\circ (m\otimes \id))[(\triangle\otimes \id)(\mu^{-1})(\mu^{-1}\otimes 1)\rhd a\otimes b\otimes c]\nonumber\\
+& = (m\circ (\id\otimes \alpha)+\alpha\circ (\id\otimes m))[(\id\otimes \triangle)(\mu^{-1})(1\otimes \mu^{-1})\rhd a\otimes b\otimes c]
+\end{align}
+where in the final line we apply \eqref{Hochschild_cocycle_1} and use the fact that $\mu$ being a counital $2$-cocycle of $H$ implies: 
+$$(\id\otimes \triangle)(\mu^{-1})(1\otimes \mu^{-1})=(\triangle\otimes \id)(\mu^{-1})(\mu^{-1}\otimes 1)$$
+At this point one takes \eqref{cocycle_proof_eq_1} and essentially does the opposite of all the previous steps in order get an expression written in terms of $m_\mu$ and $\alpha_\mu$ again. Doing this, we arrive at $(m_\mu\circ (\alpha_\mu\otimes \id)+\alpha_\mu\circ (m_\mu\otimes \id))(a\otimes b\otimes c)$ (i.e. the RHS of \eqref{Hochschild_cocycle_2} applied to $a\otimes b\otimes c$), precisely as required. So $\alpha_\mu$ is indeed a Hochschild $2$-cocycle of $A_\mu$.\bb
+%-------------------------------------------------------------------------------
+% Proving the wrong bloody condition!
+\iffalse
+For arbitrary $r,s,u\in A$ we have $r\otimes s\otimes u=(\mu\otimes 1)(\triangle\otimes \id)(\mu)\rhd \sum_i r'_i\otimes s'_i\otimes u'_i$ for some $r'_i,s'_i,u'_i\in A$ (in particular they are defined such that $\sum_i r'_i\otimes s'_i\otimes u'_i=(\triangle\otimes \id)(\mu^{-1})(\mu^{-1}\otimes 1)\rhd r\otimes s\otimes u$). Now
+\begin{align*}
+\big((m_\mu+\alpha_\mu)\otimes \id\big)(r\otimes s\otimes u) & =\big((m+\alpha)\otimes \id\big)((\mu^{-1}\otimes 1)\rhd r\otimes s\otimes u)\\
+ & =\big((m+\alpha)\otimes \id\big)((\mu^{-1}\otimes 1)\rhd (\mu\otimes 1)(\triangle\otimes \id)(\mu)\rhd r'\otimes s'\otimes u')\\
+ & =\big((m+\alpha)\otimes \id\big)((\triangle\otimes \id)(\mu)\rhd r'\otimes s'\otimes u')
+\end{align*}
+Next we apply $(m_\mu+\alpha_\mu)$, giving us the left hand side of \eqref{Hochschild_cocycle_2} applied to $r\otimes s\otimes u$,
+\begin{align*}
+ & = (m+\alpha)\bigg(\mu^{-1}\rhd \big((m+\alpha)\otimes \id\big)((\triangle\otimes \id)(\mu)\rhd r'\otimes s'\otimes u')\bigg)\\
+ & = (m+\alpha)\big((m+\alpha)\otimes \id\big)\bigg((\triangle\otimes \id)(\mu^{-1})\rhd (\triangle\otimes \id)(\mu)\rhd r'\otimes s'\otimes u') \bigg)\\
+ & = (m+\alpha)\big((m+\alpha)\otimes \id\big)\big( r'\otimes s'\otimes u' \big)
+\end{align*}
+Moving the second line applies the following identity: $$\mu^{-1}\rhd \big((m+\alpha)\otimes \id\big)(a\otimes b\otimes c)=\big((m+\alpha)\otimes \id\big)((\triangle\otimes \id)(\mu^{-1})\rhd a\otimes b\otimes c)$$
+and this identity is fairly easy to prove once we recall the product $m$ commutes with action of $H$, and by assumption, so does $\alpha$, hence: 
+$$h\rhd (m+\alpha)(a\otimes b)=(m+\alpha)(\triangle(h)\rhd a\otimes b)\hspace{.5cm}\forall h\in H,a,b\in A$$
+
+%and it is established that the algebra $A[t]/(t^2)$ with product $m+\alpha$ is an $H$-module algebra, and hence  -Justify.}\bb
+
+\nt So we have shown the LHS of \eqref{Hochschild_cocycle_2} applied to $r\otimes s\otimes u$ is equal to $(m+\alpha)\big((m+\alpha)\otimes \id\big)\big( r'\otimes s'\otimes u' \big)$. Similarly we find the RHS of \eqref{Hochschild_cocycle_2} applied to $r\otimes s\otimes u$ is equal to $(m+\alpha)\big(\id\otimes (m+\alpha)\big)(r'\otimes s'\otimes u')$. Finally applying \eqref{Hochschild_cocycle_1}, we find that the LHS and RHS of \eqref{Hochschild_cocycle_2} are indeed equal, so $\alpha_\mu$ is a Hochschild $2$-cocycle of $A_\mu$.\bb
+\fi
+%End of the proof of the wrong version of hochschild 2cocycle equation.
+%-------------------------------------------------------------------------------
+
+\nt Next we check $\alpha_\mu$ is $H_\mu$-equivariant. The coproduct on $H_\mu$ is $\triangle_\mu(h):=\mu\cd \triangle(h)\cd \mu^{-1}$, so
+\begin{align*}
+h\rhd \al_\mu (a\otimes b) & =h\rhd \al (\mu^{-1}\rhd a\otimes b)\\
+& = \al (\triangle(h)\mu^{-1}\rhd a\otimes b)\\
+& = \al (\mu^{-1}\triangle_\mu(h)\rhd a\otimes b)\\
+& = \al_\mu (\triangle_\mu(h)\rhd a\otimes b)
+\end{align*}
+as required.\bb %So $\alpha_\mu$ is an $H_\mu$-equivariant Hochschild $2$-cocycle of $A_\mu$.\bb
+
+\nt For the final part, suppose $\alpha$ is an $H$-equivariant $2$-coboundary, i.e. it satisfies \eqref{2_coboundary} for some $\beta:A\rt A$ which commutes with action of $H$. Then, if $\mu^{-1}=\sum_i \mu_i\otimes \mu'_i$ for some $\mu_i,\mu'_i\in H$,
+\begin{align*}
+  \al_\mu(a\otimes b) & =\al(\mu^{-1}\rhd a\otimes b)\\
+  & = \sum_i \al((\mu_i\rhd a)\otimes (\mu'_i\rhd b))\\
+  & = \sum_i m(\mu_i\rhd a\otimes \beta(\mu'_i\rhd b))-\beta\circ m(\mu_i\rhd a\otimes \mu'_i\rhd b)+m(\beta(\mu_i\rhd a)\otimes \mu'_i\rhd b)\\
+  & = m_\mu(a\otimes \beta(b))-\beta\circ m_\mu(a\otimes b)+m_\mu(\beta(a)\otimes b)
+  \end{align*}
+where the final equality applies the fact $\beta$ commutes with action of $H$. So indeed $\al_\mu$ satisfies \eqref{2_coboundary} using the same map $\beta$ as for $\al$, here regarded as a linear map $A_\mu \rt A_\mu$ (recall $A_\mu$ has the same underlying vector space as $A$). Also since $H_\mu$ and $H$ have same underlying vector space and the action of $H_\mu$ on $A_\mu$ is the same as that of $H$ on $A$, $\beta$ also commutes under the action of $H_\mu$. So $\al_\mu$ is an $H_\mu$-equivariant $2$-coboundary as required.  
+\end{proof}
+\end{theorem}
+
+\nt By this theorem we deduce if algebras $A$ and $B$ are related via a Drinfeld twist then there is an isomorphism between the spaces of equivariant Hochschild $2$-cocycles on the two algebras. Next we check the property of being a \textit{constant} Hochschild $2$-cocycle (see Definition \ref{constant}) is preserved under this isomorphism:
+
+\begin{cor} Let $A=S_q(V)\rtimes G$ be an $H$-module algebra for some Hopf algebra $H$ acting by degree-preserving homomorphisms. Suppose $\mu$ is also a counital $2$-cocycle of $H$, and $\alpha$ is a constant and $H$-equivariant Hochschild $2$-cocycle of $A$. Then $\alpha_\mu$ is a constant Hochschild $2$-cocycle of $A_\mu$.
+\begin{proof}
+Note $\al_\mu(a\otimes b):=\al(\mu^{-1}\rhd a\otimes b)$, and since $H$ acts by degree-preserving homomorphisms on $A$ and $\alpha$ is a degree $-2$ map with respect to the grading on $A$ (which coincides with the grading on $A_\mu$ by Lemma \ref{ass_is_module_algebra}(2)), $\al_\mu$ must also be a degree $-2$ map, and therefore a constant cocycle.
+\end{proof}
+\end{cor}
+
+
+%-----------------------------------------------------------------------------
+
+
+\section{Lifting twists to quantum Drinfeld Hecke algebras}\label{claim_3_sec}
+In this section we tackle Claim 3 from the Introduction. We begin in Section \ref{setting_the_scene} by stating carefully all the assumptions we make and formulating the claim in more precise terms. The claim is proved in Section \ref{claim_3}.
+
+\subsection{Setting the scene}\label{setting_the_scene}
+Let us start by supposing we have the following data:
+\begin{itemize}
+    \item $A=S_q(V)\rtimes G$, which we suppose is an $H$-module algebra for a Hopf algebra $H$ acting by degree-preserving endomorphisms,
+    \item $B=S_{q'}(V')\rtimes G'$,
+    \item a counital $2$-cocycle $\mu$ of $H$, 
+    \item a constant $H$-equivariant Hochschild $2$-cocycle $\alpha$ of $A$, which, by Theorem \ref{cocycle_map_proof}, defines a constant $H_\mu$-equivariant Hochschild $2$-cocycle $\alpha_\mu$ on $A_\mu$,
+\end{itemize}
+which we suppose satisfies the following conditions:
+\begin{itemize}
+    \item $A$ and $B$ are related by a Drinfeld twist by the cocycle $\mu$, i.e. $A_\mu \cong B$; with the additional assumption that these are isomorphic as \textit{graded} algebras, %\textcolor{red}{where this is additionally an isomorphism of graded algebras},
+    \item the action of $G$ on $V$ extends to an action on $\bigwedge_q(V)$ by algebra automorphisms so that, by Theorem \ref{quantum_dh_alg}, the cocycle $\alpha$ defines a quantum Drinfeld Hecke algebra $Q_\alpha$ satisfying $\gr(Q_\alpha)\cong A$,
+    \item the action of $G'$ on $V'$ similarly extends to an action on $\bigwedge_{q'}(V')$ by algebra automorphisms so that by Theorem \ref{quantum_dh_alg} cocycles of $B$ produce quantum Drinfeld Hecke algebras with associated graded algebra isomorphic to $B$.
+\end{itemize}
+
+\nt Note that the isomorphism $A_\mu\cong B$ implies that cocycles on $A_\mu$ are $1-1$ with cocycles on $B$. Let us take a particular isomorphism $\psi:A_\mu\xrt{\sim} B$. In what follows we suppose that this is an isomorphism of filtered algebras, so preserves the gradings on each side. By Lemma \ref{isomorphism_cocycle_lem} this induces a map between cocycles on each algebra, and in particular the cocycle $\alpha_\mu$ on $A_\mu$ defines a Hochschild $2$-cocycle $\hat{\alpha}_\mu:=\psi\circ \alpha_\mu\circ (\psi^{-1}\otimes \psi^{-1})$ on $B$. By the assumptions above we can apply Theorem \ref{quantum_dh_alg} so that $\hat{\alpha}_\mu$ lifts to a quantum Drinfeld Hecke algebra $Q_{\hat{\alpha}_\mu}$ with $\gr(Q_{\alpha_\mu})\cong B$.\bb
+
+\nt We can now state Claim 3 in precise terms:
+\begin{enumerate}[label=(\alph*)]
+  \item $Q_\alpha$ is an $H$-module algebra, and is therefore amenable to twisting by the cocycle $\mu$.
+  \item The twist of $Q_\alpha$ by $\mu$ is isomorphic to the algebra $Q_{\hat{\alpha}_\mu}$.
+\end{enumerate}
+
+\nt The claim isn't likely to be true however in the current level of generality, so we make several further assumptions:
+\begin{itemize}
+   \item let $H=\Cc  T$, the group algebra of a subgroup $T$ of $G$. This is indeed a Hopf algebra with coproduct given by $\triangle(t)=t\otimes t\ \forall t\in T\subset \Cc  T$. 
+   
+   \item the action of $H=\Cc  T$ on $A=S_q(V)\rtimes G$ is induced (in a way made explicit shortly) by the following individual actions of $H$ on $V$ and $\Cc  G$ respectively: 
+   \begin{itemize}
+      \item Since $T$ is a subgroup of $G$, the action of $\Cc  G$ on $V$ restricts to give an action of $H=\Cc  T$ on $V$. We assume that the set of subspaces spanned by each basis vector $\Omega=\{V_i:=\Cc  v_i\ |\ i\in [n]\}$ forms a system of imprimitivity with respect to this action of $H$. This means $t \rhd V_i \in \Omega\ \forall t\in T, i\in [n]$, or more simply: $t\rhd v_i=\lambda v_j$ for some $\lambda\in \Cc ,\ j\in [n]$. Furthermore we assume that $q_{ij}=q_{kl}$ whenever $\exists t\in T$ such that $t(V_i)=V_k$ and $t(V_j)=V_l$. This action naturally extends to make the tensor algebra $T(V)$ an $H$-module algebra.  
+
+      \item $H=\Cc  T$ acts on $\Cc  G$ via the adjoint action: $t\rhd g:=tgt^{-1}\ \forall t\in T,g\in G$. By Majid \cite{alma9916633704401631} (Proposition 2.7) this makes $\Cc  G$ an $H$-module algebra.
+   \end{itemize}
+\end{itemize}
+
+\nt We explain in detail next how the respective actions of $H$ on $V$ and $\Cc  G$ come together to induce an action of $H$ on $S_q(V)\rtimes G$. The first step is to apply the following lemma with $A=T(V)$ to deduce that $T(V)\rtimes G$ is an $H$-module algebra.
+
+\begin{lemma}\label{building_h_mod_algebras} Suppose $A$ is a $\Cc  G$-module algebra, and $A\rtimes G$ is the smash product algebra.  If $T$ is a subgroup of $G$, then $A\rtimes G$ has a $\Cc  T$-module algebra structure. 
+% Suppose $A$ is an $H$-module algebra for Hopf algebra $H$, and $A\#H$ is the smash product algebra. If $A$ and $H$ are both $\bar H$-module algebras for another Hopf algebra $\bar H$, then $A\#H$ is a $\bar H$-module algebra.
+\begin{proof}
+First note that on restricting the action of $\Cc  G$ on $A$ to $\Cc T$, $A$ naturally forms a $\Cc  T$-module algebra. Additionally we can make $\Cc  G$ a $\Cc  T$-module algebra via the adjoint action $t\rhd g=tgt^{-1}$ (see Majid \cite{alma9916633704401631} Proposition 2.7). Since $\Cc  T$ is a Hopf algebra we can tensor $A$ and $\Cc  G$ together as $\Cc  T$-modules to get a $\Cc  T$-module structure on $A\otimes \Cc  G$ with $T$ acting diagonally. We now check this action is also compatible with the algebra structure of $A\rtimes G$,%Recall the product on $A\rtimes G$ is given by: $(a\otimes g)\cd (a'\otimes g') = (a\cd (g\rhd a'))\otimes gg'$. Now
+\begin{align*}
+t\rhd (a\otimes g)\cd (a'\otimes g') & = t\rhd (a\cd (g\rhd a'))\otimes gg'\\
+& = t\rhd (a\cd (g\rhd a')) \otimes t\rhd gg'\\
+& = [(t\rhd a)\cd (tg\rhd a')]\otimes tgg't^{-1}\\
+& = (t\rhd a)\cd [(t\rhd g)\rhd (t\rhd a')]\otimes (t\rhd g)\cd (t\rhd g')\\
+& = [(t\rhd a)\otimes (t\rhd g)]\cd [(t\rhd a')\otimes (t\rhd g')]\\
+& = (t\rhd (a\otimes g))\cd (t\rhd (a'\otimes g'))
+\end{align*}
+Finally, $t\rhd 1_{A\rtimes G}=t\rhd 1_A\otimes 1_G=t\rhd 1_A\otimes t\rhd 1_G=1_A\otimes 1_G=1_{A\rtimes G}$. So $A\rtimes G$ is indeed a $\Cc T$-module algebra.
+\end{proof}
+\end{lemma}
+\nt The next step is to prove the following general results regarding quotient algebras,
+\begin{lemma}\label{quotients_h_mod_algs_result} Let $A$ be an $H$-module algebra. 
+\begin{enumerate}
+  \item If $I$ is an ideal and $H$-submodule of $A$ then $A/I$ is an $H$-module algebra. 
+  \item Suppose $A$ is also a filtered algebra and $I$ is any ideal of $A$. Then $A/I$ is also a filtered algebra. Additionally, if the action of $H$ is degree-preserving with respect to the filtration on $A$, then the induced action on $A/I$ is degree-preserving.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+  \item It is easy to check to the axioms, for instance the product rule for module algebras follows by: $h\rhd (a+I)\cd (b+I)=h\rhd (ab+I)=(h\rhd ab)+I=(h\rhd a)\cd (h\rhd b)+I=h\rhd (a+I)\cd h\rhd (b+I)$.%Let us consider $A$ as an algebra object in the category $H$-mod. Since the ideal $I$ is an $H$-submodule of $A$, it can also be regarded as an object in $H$-mod. We can therefore take the quotient object of $A$ by $I$ within $H$-mod, which results in the algebra object $A/I$, another algebra object of $H$-mod, and hence an $H$-module algebra.
+  \item  If $A$ has filtration $\{F_\bullet\}$, then $A/I$ can easily be shown to have filtration $\{\frac{F_\bullet +I}{I}\}$. Clearly then if the action on $A$ is degree-preserving, i.e. $h\rhd F_i\subseteq F_i$, then the action on $A/I$ is degree-represerving. Indeed suppose $v\in F_i+I$, then we wish to check $h\rhd v+I\in F_i+I$. We have $h\rhd (v+I)=(h\rhd v)+I$, and $h\rhd v\in F_i+I$ using the fact $I$ is a submodule and the action is degree-preserving on $A$.
+\end{enumerate}
+\end{proof}
+\end{lemma}
+
+\nt So on applying Theorem \ref{building_h_mod_algebras} with $A=T(V)$ we deduce $T(V)\rtimes G$ is an $H$-module algebra. Then by Lemma \ref{quotients_h_mod_algs_result}(1), if the 2-sided ideal $I:=\langle  v_i\otimes v_j-q_{ij}v_j\otimes v_i\rangle$ inside $T(V)\rtimes G$ is an $H$-submodule of $T(V)\rtimes G$, then $S_q(V)\rtimes G=T(V)\rtimes G/I$ will be an $H$-module algebra, as required.\bb
+
+\nt Showing $I$ is an $H$-submodule amounts to showing the generators of $I$ remain in $I$ when acted by $H$. Recall that we assumed that for each $t\in T$, $t\rhd v_i=\lambda v_k,\ t\rhd v_j=\mu v_l$ for some $\lambda,\mu\in \Cc , k,l\in [n]$. Therefore $t\rhd  v_i\otimes v_j-q_{ij}v_j\otimes v_i=\lambda\mu (v_k\otimes v_l-q_{ij}v_l\otimes v_k)$. This is seen to be just another (rescaled) generator of $I$, under the crucial assumption that $q_{ij}=q_{kl}$. This is the reason for our assumption that $q_{ij}=q_{kl}$ whenever $\exists t\in T$ such that $t(V_i)=V_k$ and $t(V_j)=V_l$. So $S_q(V)\rtimes G$ is an $H$-module algebra. Also, by construction, the action of $H$ on $T(V)\rtimes G$ is degree-preserving, and so by Lemma \ref{quotients_h_mod_algs_result}(2), so is the action on $S_q(V)\rtimes G$.
+
+\subsection{Proving Claim 3}\label{claim_3}
+
+\nt With the assumptions now stated precisely we can proceed with proving the first part of Claim 3:
+
+\begin{proposition}\label{is_an_h_mod_alg} Suppose $H=\Cc  T$ and $S_q(V)\rtimes G$ are as in given in Section \ref{setting_the_scene}. Suppose also that $\alpha$ is a constant Hochschild $2$-cocycle of $S_q(V)\rtimes G$ lifting to quantum Drinfeld Hecke algebra $Q_\alpha$. If $\alpha$ is $H$-equivariant, then $Q_\alpha$ is an $H$-module algebra.
+\begin{proof}
+The quantum Drinfeld Hecke algebra that arises from $\alpha$ is given by
+$$Q_\alpha:=T(V)\rtimes G/J,\hspace{.5cm} J:=\langle v_i\otimes v_j-q_{ij}v_j\otimes v_i-\kappa (v_i,v_j)\rangle$$
+where $\kappa(v_i,v_j)=\sum_{g\in G}\kappa_g(v_i,v_j)=\alpha(v_i\otimes v_j-q_{ij}v_j\otimes v_i)$ (see \cite[proof of Theorem 4.4]{2011arXiv11115243N}). By our assumptions and Lemma \ref{building_h_mod_algebras}, $T(V)\rtimes G$ is an $H$-module algebra, so we just need to check the ideal $J$ is an $H$-submodule of $T(V)\rtimes G$ for the result to follow by Lemma \ref{quotients_h_mod_algs_result}(1). It is sufficient to check the action is closed on the generators of $J$, i.e.
+\begin{equation}\label{nasty_submodule_eqn}
+t\rhd [v_i\otimes v_j-q_{ij}v_j\otimes v_i-\alpha(v_i\otimes v_j-q_{ij}v_j\otimes v_i)]\in J\hspace{1cm} \forall t\in T, i,j\in [n]
+\end{equation}
+Now we must be careful since there are two copies of the expression $v_i\otimes v_j-q_{ij}v_j\otimes v_i$ appearing in \eqref{nasty_submodule_eqn}, however they represent different things. The first copy represents $v_i\otimes v_j\otimes 1_G-q_{ij}v_j\otimes v_i\otimes 1_G\in V^{\otimes 2}\otimes \Cc  G\subseteq T(V)\rtimes G$, whilst the second copy represents $(v_i\otimes 1_G)\otimes (v_j\otimes 1_G)-q_{ij}(v_j\otimes 1_G)\otimes (v_i\otimes 1_G)\in (S_q(V)\rtimes G)^{\otimes 2}$ where here the $v_i,v_j$ are viewed as elements of $V\subseteq S_q(V)$.\bb
+
+\nt Recall $H=\Cc  T$ acts diagonally on $T(V)\rtimes G$, and in particular via the adjoint action on $\Cc  G$, so 
+\begin{align*}
+t \rhd (v_i\otimes v_j\otimes 1_G-q_{ij}v_j\otimes v_i\otimes 1_G) & = (t\rhd v_i)\otimes (t\rhd v_j)\otimes t1_Gt^{-1} -q_{ij}(t\rhd v_j)\otimes (t\rhd v_i)\otimes t1_Gt^{-1}\\
+& = \lambda\mu (v_k\otimes v_l\otimes 1_G-q_{kl}v_l\otimes v_k\otimes 1_G)
+\end{align*}
+where the second equality follows via the discussion in the final paragraph of Section \ref{setting_the_scene} (i.e. that we have $t\rhd v_i=\lambda v_k$ and $t\rhd v_j=\mu v_l$ for some $\lambda,\mu\in \Cc , k,l\in [n]$ and $q_{ij}=q_{kl}$). Applying the fact $\alpha$ is $H$-equivariant,
+\begin{align*}
+t\rhd \alpha(v_i\otimes v_j-q_{ij}v_j\otimes v_i) & =\alpha\Big(\triangle(t)\rhd \big[(v_i\otimes 1_G)\otimes (v_j\otimes 1_G)-q_{ij}(v_j\otimes 1_G)\otimes (v_i\otimes 1_G)\big]\Big)\\
+& = \alpha\Big([t\rhd (v_i\otimes 1_G)]\otimes [t\rhd (v_j\otimes 1_G)]-q_{ij}[t\rhd (v_j\otimes 1_G)]\otimes [t\rhd (v_i\otimes 1_G)]\Big)\\
+& = \lambda\mu\ \alpha\Big((v_k\otimes 1_G)\otimes (v_l\otimes 1_G)-q_{ij}(v_l\otimes 1_G)\otimes (v_k\otimes 1_G)\Big)
+\end{align*}
+Now we see that the expression in \eqref{nasty_submodule_eqn} equates to $\lambda\mu(v_k\otimes v_l-q_{kl}v_l\otimes v_k-\alpha(v_k\otimes v_l-q_{kl}v_l\otimes v_k))$ which is another (rescaled) generator of $J$. So the action of $H$ on the generators of $J$ is closed, so $J$ is an $H$-submodule, and it follows that $Q_\alpha$ is an $H$-module algebra.
+\end{proof}
+\end{proposition}
+
+\nt The following result will be very useful in the proof of the second part of Claim 3,
+
+\begin{lemma}\label{main_theorem_crux} Let $\psi:(A,m_A)\xrt{\sim} (B,m_B)$ be an algebra isomorphism, and $\bar A:=\Cc[t]\otimes A$ be a deformation over $\Cc[t]$ of $A$ with product $\bar m_A(a\otimes b)=m_A(a\otimes b)+\mu_1(a\otimes b)t+\dots$, then,
+\begin{itemize}
+  \item $\bar B:=\Cc[t]\otimes B$ with product $\bar m_B(c\otimes d):=m_B(c\otimes d)+\mu'_1(c\otimes d)+\dots $ where $\mu'_i(c\otimes d):=\psi\circ \mu_i\circ (\psi^{-1}\otimes \psi^{-1})\ \forall i\geq 1$, is a deformation over $\Cc[t]$ of $B$.
+  \item $\bar A\cong \bar B$.
+\end{itemize}
+\begin{proof}
+\begin{itemize}
+  \item -
+  \item -
+\end{itemize}
+\end{proof}
+\end{lemma}
+  
+\nt Let us now suppose we have all the objects and assumptions given in Section \ref{setting_the_scene}. By Proposition \ref{is_an_h_mod_alg} we know $Q_\alpha$ is an $H$-module algebra, so we can go about twisting it by the cocycle $\mu$ of $H$. We denote the resulting algebra $(Q_\alpha)_\mu$. As discussed in Section \ref{setting_the_scene}, for a chosen isomorphism $\psi:A_\mu\xrt{\sim} B$, the cocycle $\alpha_\mu$ on $A_\mu$ defines a cocycle $\hat{\alpha}_\mu$ on $B$. We can then use $\hat{\alpha}_\mu$ to generate a quantum Drinfeld Hecke algebra that deforms $B$, which we denote $Q_{\hat{\alpha}_\mu}$. The next theorem proves the final part of Claim 3.
+
+\begin{theorem}\label{the_main_result}
+$(Q_\alpha)_\mu\cong Q_{\hat{\alpha}_\mu}$.
+
+\begin{proof} %Let $A:=S_q(V)\rtimes G,\ B:=S_{q'}(V')\rtimes G'$ and $\psi:A_\mu\xrt{\sim}B$. Recall that %if $\alpha$ is a Hochschild $2$-cocycle on $A$, then $\alpha_\mu$ is a cocycle on $A_\mu$, and additionally $\hat{\alpha}_\mu:=\psi\circ \alpha_\mu\circ (\psi^{-1}\otimes \psi^{-1})$ is easily seen to be a Hochschild $2$-cocycle on $B$. By Theorem \ref{quantum_dh_alg}, $\alpha$ generates the quantum Drinfeld Hecke algebra $Q_\alpha$ with $\gr(Q_\alpha)\cong A$, whilst $\hat{\alpha}_\mu$ generates a quantum Drinfeld Hecke algebra $Q_{\hat{\alpha}_\mu}$ with $\gr(Q_{\hat{\alpha}_\mu})\cong B$. 
+Recall the quantum Drinfeld Hecke algebra $Q_\alpha$, which satisfies $\gr(Q_\alpha)\cong A$, naturally defines a quantum Drinfeld Hecke algebra over $\Cc[t]$, which we denote $Q_{\alpha,t}$ and satisfies $\gr(Q_{\alpha,t})\cong \Cc[t]\otimes A$. Similarly $Q_{\hat{\alpha}_\mu}$ defines a quantum Drinfeld Hecke algebra over $\Cc[t]$ which we denote $Q_{\hat{\alpha}_\mu , t}$. Next we check that $Q_\alpha$ being an $H$-module algebra implies $Q_{\alpha,t}$ is an $H$-module algebra in which $H$ acts diagonally on the tensor legs of $\Cc[t]\otimes A$, and, in particular, trivially on $t$. Indeed, let us recall the form of $Q_{\alpha,t}$, 
+\begin{equation}\label{qdha_over_t}
+  H_{q,\kappa,t}:=T(V)\rtimes G[t]/\langle v_i v_j-q_{ij}v_j v_i - \sum_{g\in G} \kappa_g (v_i,v_j)tg\rangle
+\end{equation}
+where we use notation $A[t]:=\Cc[t]\otimes A$ for an algebra $A$. With $H$ acting trivially on $t$, $\Cc[t]$ becomes an $H$-module algebra, and therefore so does $T(V)\rtimes G[t]$ when $H$ acts diagonally. It remains to check the generators of the ideal above remain in the ideal when acted upon by $H$. By above we know that in $T(V)\rtimes G$, $h\rhd (v_i v_j-v_j v_i-\sum_g\kappa_g(v_i,v_j)g)=\lambda\mu (v_kv_l-v_lv_k-\sum_g\kappa_g(v_k,v_l)g)$ for some $i,j,k,l\in [n], \lambda,\mu\in \Cc$. It follows that
+$$h\rhd (\sum_g \kappa_g(v_i,v_j)tg)=\sum_g \kappa_g(v_i,v_j)t(h\rhd g)=\lambda\mu \sum_g \kappa_g (v_k,v_l)tg$$
+and therefore the ideal in \eqref{qdha_over_t} is closed, and $Q_{\alpha,t}$ is an $H$-module algebra. With this it becomes possible to twist $Q_{\alpha,t}$ by the cocycle $\mu$.\bb
+  
+\nt By Theorem \ref{thm_2.2}, $Q_{\alpha,t}$ can be characterised as a deformation over $\Cc[t]$ of $A$. Therefore, if $m$ is the product on $A$, then $Q_{\alpha,t}$ has underlying vector space $\Cc[t] \otimes A$ and a product of the form:
+$$m'(a\otimes b)=m(a\otimes b)+\mu_1(a\otimes b)t+\mu_2(a\otimes b)t^2+\dots$$ 
+where $\mu_1=\alpha$ is our cocycle we used to deform $A$ by, and $\mu_i:A\otimes A\rt A,\ i\geq 2$ are some other linear maps. Twisting $Q_{\alpha,t}$ by $\mu$ results in an algebra $(Q_{\alpha,t})_\mu$ with underlying vector space $\Cc[t]\otimes A$ and product 
+\begin{align*}%\label{main_prf_eq_1}
+(m')_\mu(a\otimes b) & =m_\mu(a\otimes b)+\mu_1(\mu^{-1}\rhd a\otimes b)t+\mu_2(\mu^{-1}\rhd a\otimes b)t^2+\dots \\
+& =m_\mu(a\otimes b)+\mu'_1(a\otimes b)t+\mu'_2(a\otimes b)t^2+\dots\nonumber
+\end{align*}
+where $\mu'_i(a\otimes b):=\mu_i(\mu^{-1}\rhd a\otimes b)$. Notice that $\mu'_1=\alpha_\mu$. By the form of the product $(m')_\mu$ we can see that $(Q_{\alpha,t})_\mu$ is a deformation over $\Cc[t]$ of $A_\mu$.\bb
+
+\nt We can now use the isomorphism $\psi:A_\mu\rt B$ and the fact $(Q_\alpha)_\mu$ is a deformation over $\Cc[t]$ of $A_\mu$ to apply Lemma \ref{main_theorem_crux}(1). We deduce that the $\Cc[t]$-linear extension of $B$, $\hat Q$ say, with the following product, is a deformation over $\Cc[t]$ of $B$,
+$$(m_B)'(c\otimes d)=m_B(c\otimes d)+\gamma_1(c\otimes d)t+\gamma_2(c\otimes d)t^2+\dots$$
+where $\gamma_i:=\psi\circ \mu'_i\circ (\psi^{-1}\otimes \psi^{-1})$. Notice that $\gamma_1=\hat{\alpha}_\mu$. Since $\psi$ is degree-preserving and $\deg(\alpha_\mu)=-2$, we see that $\deg(\hat \alpha_\mu)=-2$. Therefore, by Theorem \ref{thm_2.2}, $\hat Q$ is a quantum Drinfeld Hecke algebra over $\Cc[t]$. But we know the cocycle in degree $1$ (of the expansion in $t$) of the product on $\hat Q$ is $\hat \alpha_\mu$, and by Theorem \ref{quantum_dh_alg}, this cocycle uniquely determines the quantum Drinfeld Hecke algebra. Since $Q_{\hat \alpha_\mu,t}$ also has this cocycle in degree $1$ of its product, we see $\hat Q = Q_{\hat \alpha_\mu,t}$. Finally we apply Lemma \ref{main_theorem_crux}(2) to see that 
+\begin{equation}\label{main_thm_stronger_result}
+(Q_{\alpha,t})_\mu\cong \hat Q=Q_{\hat \alpha_\mu,t}
+\end{equation}
+
+\iffalse
+\nt Applying Theorem \ref{thm_2.2} again we can view $Q_{\hat{\alpha}_\mu , t}$ also as a deformation over $\Cc[t]$ of $B$. If $m_B$ denotes the product on $B$, then the product on this algebra will have the form:
+$$(m_B)'(c\otimes d)=m_B(c\otimes d)+\gamma_1(c\otimes d)t+\gamma_2(c\otimes d)t^2+\dots$$
+where $\gamma_1=\hat{\alpha}_\mu$ and $\gamma_i:B\otimes B\rt B$, $i\geq 2$, are some other linear maps.\bb
+
+\nt Now Theorem \ref{quantum_dh_alg} asserts that a deformation over $\Cc[t]$ (and its specialisation at $t=1$) of a skew group algebra is uniquely determined by the Hochschild $2$-cocycle appearing in the deformed product. In particular $Q_{\hat{\alpha}_\mu,t}$ is the unique deformation over $\Cc[t]$ of $B$ with $\hat{\alpha}_\mu$ appearing in degree 1 (with respect to the expansion in $t$) of the deformed product. Now since $A_\mu\cong B$, the collection of deformations over $\Cc[t]$ of $A_\mu$ should be $1-1$ with the set of deformations over $\Cc[t]$ of $B$. As $\alpha_\mu$ is the Hochschild $2$-cocycle on $A_\mu$ corresponding to $\hat{\alpha}_\mu$ under this isomorphism, it follows that the deformation of $A_\mu$ with $\alpha_\mu$ in degree 1 of the deformed product must also be uniquely determined and isomorphic to $Q_{\hat{\alpha}_\mu,t}$. It follows that $(Q_{\alpha,t})_\mu\cong Q_{\hat{\alpha}_\mu,t}$, and on specialising each side at $t=1$ we deduce $(Q_{\alpha})_\mu\cong Q_{\hat{\alpha}_\mu}$
+\fi
+
+\nt It remains to check that this result reduces to the desired result: $(Q_\alpha)_\mu\cong Q_{\hat \alpha_\mu}$. We do so by specializing each algebra in \eqref{main_thm_stronger_result} at $t=1$. Note that the isomorphism in the proof of Lemma \ref{main_theorem_crux} maps $t\mapsto t$, so also $t-1\mapsto t-1$, and therefore the ideal $\langle t-1 \rangle$ inside $(Q_{\alpha,t})_\mu$ is sent to the ideal $\langle t-1\rangle$ inside $Q_{\hat \alpha_\mu,t}$. We can therefore quotient both $(Q_{\alpha,t})_\mu$ and $Q_{\hat \alpha_\mu,t}$ by $\langle t-1\rangle$ and the resulting algebras will still be isomorphic. We deduce $(Q_{\alpha,t})_\mu/\langle t-1\rangle\cong Q_{\hat \alpha_\mu}$.\bb
+
+\nt Finally observe that the underlying spaces, and products, on $(Q_{\alpha,t})_\mu/\langle t-1\rangle$ and $(Q_\alpha)_\mu=(Q_{\alpha,t}/\langle t-1\rangle)_\mu$, are equal, therefore these are equal as algebras, and we are done.
+
+%We assert that the linear isomorphism $(\id_{\Cc[t]}\otimes \psi): \Cc[t]\otimes A_\mu\rt \Cc[t]\otimes B$ is also an algebra homomorphism establishing $(Q_{\alpha,t})_\mu\cong Q_{\hat{\alpha}_\mu,t}$.\bb
+
+%Additionally we know by assumption that $A_\mu \cong B:=S_{q'}(V')\rtimes G'$. Let $\psi$ be the isomorphism between these algebras. Then, therefore it is possible to define a deformation over $\Cc[t]$ of $S_{q'}(V')\rtimes G'$ that is isomorphic to $(Q_\alpha)_\mu$, which we call $Q$. Since $Q$ is a deformation over $\Cc[t]$ of a skew group algebra, via ?? maps $\mu'_i:=\mu_i(\mu^{-1}\rhd - \otimes - ):A\otimes A \rt A$ satisfy $\deg(\mu'_i)=-2i$, since the action of $\mu^{-1}$ is degree-preserving. Therefore we find that the assumptions of Theorem \ref{thm_2.2} are satisfied for $(Q_\alpha)_\mu$, i.e. it is a deformation over $\Cc[t]$ of a skew group algebra by maps $\mu'_i$ that are of the correct degree. Therefore we can deduce $(Q_\alpha)_\mu$ is a quantum Drinfeld Hecke algebra. Now by Theorem \ref{quantum_dh_alg} the Hochschild $2$-cocycle in the expansion in $t$ at degree $1$ of the product determines the whole product structure. Inspecting \eqref{main_prf_eq_1} we see this cocycle is precisely $\alpha_\mu$. Therefore $(Q_\alpha)_\mu$ must be equal to $Q_{\alpha_\mu}$.
+\end{proof}
+\end{theorem}
+
+%-------------------------------------------------------------------------------
+
+\section{Examples}\label{examples_sec}
+In the following we give several examples showing how twisting results between skew group algebras can lift to quantum Drinfeld Hecke algebras.
+
+\subsection{The twist of \texorpdfstring{$H_c(G(m,p,n))$}{HcGmpn} with \texorpdfstring{$m$}{m} even}\label{preprint_main_result_example_sec}
+
+Let $G=G(m,p,n)$ with $m$ even. By Corollary \ref{cor_to_preprint_main_result}, the skew group algebras $A=S(V\oplus V^*)\rtimes G$ and $B=S_{-1}(V\oplus V^*)\rtimes \mu(G)$ are related by a twist. We wish to deduce the main result of \cite{twistsrcas} (see Theorem \ref{our_theorem}) by applying Theorem \ref{the_main_result} for a particular choice of cocycle $\alpha$ of $A$. In order to apply Theorem \ref{the_main_result} we must check the assumptions of Section \ref{setting_the_scene} are satisfied.\bb
+
+\nt First $A$ is an $H$-module algebra for $H=\Cc T$, where $T=\langle t_i^{(-1)}|\ 1\leq i \leq n\rangle$. The action of $H$ is degree-preserving since $t_i^{(-1)}\rhd x_j=\pm x_j$ and $t_i^{(-1)}\rhd g=t_i^{(-1)}gt_i^{(-1)}\in G\ \forall g\in G$. Additionally Corollary \ref{cor_to_preprint_main_result} establishes that $A_\mu$ and $B$ are isomorphic, not only as algebras, but as graded algebras. Next we must check that the action of $G$ on $V\oplus V^*$ extends to an action by algebra automorphisms on $\bigwedge(V\oplus V^*)$. But this follows by \cite[Lemma 4.2]{2011arXiv11115243N}. Similarly it follows that $\mu(G)$ acts by algebra automorphisms on $\bigwedge_{-1}(V\oplus V^*)$. All we require now in order to apply Theorem \ref{the_main_result} is the constant and $H$-equivariant Hochschild $2$-cocycle $\alpha$ of $A$ such that $Q_\alpha=H_c(G(m,p,n))$.\bb
+
+\nt In fact we can easily deduce the existence of such an $\alpha$ without explicitly constructing it. Indeed since $H_c(G(m,p,n))$ is known to be quantum Drinfeld Hecke algebra (with $q_{ij}=1\ \forall i,j$) we can deduce by Theorem \ref{thm_2.2} that (its $\Cc[t]$-linear extension) is a deformation over $\Cc[t]$ of $A$, with product made up of maps $\mu_i$ satisfying $\deg(\mu_i)=-2i$. So in particular $\mu_1$ will be a constant Hochschild $2$-cocycle on $A$, and we call this $\alpha$.\bb
+
+\nt It remains to check $\alpha$ is $H$-equivariant. 
+
+
+%Our motivating example of Claims 2/3 in work will be the pair of algebras $A=S(V\oplus V^*)\rtimes G$ and $B=S_{-1}(V\oplus V^*)\rtimes \mu(G)$. \textcolor{red}{Note it remains to check that $G$ and $\mu(G)$ act by algebra automorphisms on $\Lambda(V\oplus V^*)$ and $\bigwedge_{-1}(V\oplus V^*)$. In fact in \cite{2011arXiv11115243N} Sections 6 and 7 Witherspoon does not actually check this, and surely without this it isn't guaranteed her constant cocycles generate QDHA's...?}
+
+
+
+
+\subsection{A new example: \texorpdfstring{$H_c(G(1,1,3))$}{HcG113}}\label{new_example_sec}
+
+
+
+
+
+
+\iffalse
+\subsection*{Next Ideas}
+
+\iffalse
+This is probably bullshit.
+\begin{proposition} Let $Q$ be an arbitrary filtered algebra with filtration $\{F_\bullet\}$ and whose associated graded algebra $\gr(Q)$ is an $H$-module algebra for some Hopf algebra $H$ acting by degree-preserving homomorphisms. Then $Q$ has a natural $H$-module algebra structure.
+\begin{proof}
+$H$ acts by degree-preserving homomorphisms on $\gr(Q):=\bigoplus_{i\geq 0}F_i/F_{i-1}$, so for each $h\in H, v\in F_i$, $h\rhd v+F_{i-1}\in F_i/F_{i-1}$. Hence $h\rhd v+F_{i-1}=v_h+F_{i-1}$ for some $v_h\in F_i$ which is unique up to summation by an element of $F_{i-1}$, i.e. $v_h$ defines a unique element of $F_i\backslash F_{i-1}$. Fix $v_h$ to be this unique element of $F_i\backslash F_{i-1}$. For $v\in F_i\backslash F_{i-1}$, let $h\unrhd v:=v_h$, and extend this linearly to $Q$ by noting that every element of $Q$ is a linear combination of vectors from the sets $F_i\backslash F_{i-1}$. We check that $\unrhd$ turns $Q$ into an $H$-module: take $v\in F_i\backslash F_{i-1}$, then
+\begin{align*}
+  v_{gh}+F_{i-1} & =(gh)\rhd v+F_{i-1}\\
+  & = g \rhd (h\rhd F_{i-1})\\
+  & = g\rhd (v_h+ F_{i-1})\\
+  & = (v_h)_g+F_{i-1}
+\end{align*}
+so, by uniqueness, we find $v_{gh}=(v_h)_g$. Then 
+\begin{align*}
+g\unrhd (h\unrhd v)=g\unrhd v_h=(v_h)_g=v_{gh}=(gh)\unrhd v
+\end{align*}
+as required. Next, $1\rhd v+F_{i-1}=v+F_{i-1}$ so $v_1=v$, and we get $1\unrhd v=v$, again as required. Finally we check this makes $Q$ into an $H$-module algebra: Firstly it is immediate from the fact that $h\rhd 1+F_{-1}=\epsilon(h)(1+F_{-1})$ that $h\rhd 1=\epsilon(h)1$, which is what we needed.  
+\end{proof}
+\end{proposition}
+\fi
+
+Categorical approach:
+\begin{itemize}
+  \item If $H$ is a Hopf algebra with $2$-cocycle $\chi\in H\otimes H$, then we have a monoidal equivalence of categories $(\ )_\chi: \Alg(H\Mod) \to \Alg(H_\chi\Mod)$  which takes an algebra object $(A,m)$ in $H\Mod$ (i.e. $A$ is an $H$-module algebra) to $(A,m_\chi = m(\chi^{-1}\rhd - ))$, where $H_\chi$ is the Drinfeld twist. 
+  \item By \cite{ARDIZZONI2007297}, we can define the Hochschild cohomology of algebra objects inside of a general ``abelian monoidal" category. To check: categories of the form $H\Mod$ are abelian monoidal.
+  \item If $F':\mathcal{A}\rt \mathcal{B}$ is an additive equivalence of abelian categories, then the Hochschild cohomology of algebras is preserved over $F$, i.e. we have the following isomorphism of groups: $H_\mathcal{A}^*(A,M)\cong H_\mathcal{B}^*(F(A),F(M))$. Check: the functor $F:H\Mod\xrt{\sim} H_\mu\Mod$ is additive. 
+  \item In the case $\Cc =H\Mod$ where $H$ is a subalgebra of $A$, so we have algebra embedding $u:H\rt A$, \cite{ARDIZZONI2007297} (Page 2, see cited source [6] for definition of ``relative Hochschild cohomology'') says the Hochschild cohomology of $A$ as an algebra in the category of $H$-bimodules can be viewed as the ``relative Hochschild cohomology'' of $A$ wrt $u$. Interpret above in terms of relative Hochschild cohomology. \cite{2013arXiv13117124S}, \cite{doi10108000927879908826648} may also be useful.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+
+\subsection*{KZ functors for quantum Drinfeld Hecke algebras} 
+Does there exist an analogue of category O for quantum Drinfeld Hecke algebras? Yuri says for braided Cherednik algebras the definition should generalise quite straighforwardly. Perhaps in general can be characterised as braided Drinfeld or Heisenberg doubles, and applying Laugwitz's work.\bb
+
+\nt On Hecke algebra side, Yuri's outlined an approach to constructing a Hecke algebra for mystic reflection groups via categorification. This may lead to an analogue of KZ functor for negative braided Cherednik algebras. This approach uses a cocycle twist of coinvariant algebra. Surely other cocycle twists of the coinvariant algebra would generate, via categorification, other ``quantum Hecke algebras''? Hecke algebra of Coxeter group $W$ is a ``quantisation" (does this mean Hochschild deformation?) of the group ring $\Z W$. Once the quantum Hecke algebras are obtained, would they arise as Hochschild deformations of a ``quantum group ring''. This would mimic the situation from previous section, in which Rational Cherednik algebras (more generally Drinfeld Hecke algebras) are (Hochschild) deformations of their associated graded algebras $S(V)\rtimes G$, and the quantum case arises via Hochschild deformations of $S_q(V)\rtimes G$.
+
+\fi
+
+
+
+%\printindex
+
+\bibliographystyle{plain}
+\bibliography{mymasterbib}
+
+
+
+\end{document}
